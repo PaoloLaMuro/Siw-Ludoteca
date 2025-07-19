@@ -1,5 +1,7 @@
 package it.uniroma3.siw.model;
 
+import java.util.List;
+
 import jakarta.persistence.*;
 
 @Entity
@@ -17,7 +19,12 @@ public class User {
 
     private String email;
 
-    // PIU AVANTI ASSOCIARE LA CLASSE RECENSIONE CON ONETOMANY 
+    
+
+    @OneToMany(mappedBy = "autore")
+    private List<Recensione> recensioni;
+
+    
 
 
     public Long getId() {
@@ -44,6 +51,9 @@ public class User {
     public void setEmail(String email) {
         this.email = email;
     }
+
+
+
     @Override
     public String toString() {
         return "User [id=" + id + ", name=" + name + ", surname=" + surname + ", email=" + email + "]";
@@ -88,6 +98,14 @@ public class User {
         } else if (!surname.equals(other.surname))
             return false;
         return true;
+    }
+
+
+    public List<Recensione> getRecensioni() {
+        return recensioni;
+    }
+    public void setRecensioni(List<Recensione> recensioni) {
+        this.recensioni = recensioni;
     }
 
     
