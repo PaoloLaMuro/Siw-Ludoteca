@@ -21,12 +21,6 @@ import jakarta.validation.Valid;
 @Controller
 public class HomeController {
 
-    /**
-     * This method handles the root URL ("/") and returns the name of the view to be rendered.
-     * It is used to display the home page of the application.
-     *
-     * @return The name of the view to be rendered, which is "home".
-     */
 
 
     @Autowired
@@ -92,9 +86,6 @@ public class HomeController {
         model.addAttribute("user", credentials.getUser()); // Passa user alla view
         return "index";
     }
-
-
-
 
 
 }
