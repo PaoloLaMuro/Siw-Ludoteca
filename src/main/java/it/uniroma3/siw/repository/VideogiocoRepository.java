@@ -9,6 +9,7 @@ import it.uniroma3.siw.model.Videogioco;
 
 public interface VideogiocoRepository extends CrudRepository<Videogioco, Long> {
 
+    /* 
     // Custom query methods can be defined here if needed
     List<Videogioco> findByTitolo(String titolo);
 
@@ -17,5 +18,5 @@ public interface VideogiocoRepository extends CrudRepository<Videogioco, Long> {
     
     // Method to find by genre
     List<Videogioco> findByGenere(String genere);
-
+*/
 }
