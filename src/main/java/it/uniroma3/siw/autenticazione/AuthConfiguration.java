@@ -56,7 +56,7 @@ public class AuthConfiguration {
                         .requestMatchers(HttpMethod.POST, "/register", "/login").permitAll()
                         .requestMatchers(HttpMethod.GET, "/admin/**").hasAuthority(ADMIN_ROLE)
                         .requestMatchers(HttpMethod.POST, "/admin/**").hasAuthority(ADMIN_ROLE)
-                        .anyRequest().authenticated()
+                        .anyRequest().permitAll()       //alla fine cambiare in authenticated()
                 )
                 .formLogin(form -> form
                         .loginPage("/login")
