@@ -13,7 +13,7 @@ public interface VideogiocoRepository extends CrudRepository<Videogioco, Long> {
     List<Videogioco> findByTitolo(String titolo);
 
     // Example of a method to find by release year
-    List<Videogioco> findByAnnoPubblicazione(Year annoPubblicazione);
+    List<Videogioco> findByDataUscita(Year dataUscita);
     
     // Method to find by genre
     List<Videogioco> findByGenere(String genere);
