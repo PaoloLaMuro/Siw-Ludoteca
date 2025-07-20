@@ -7,6 +7,8 @@ import it.uniroma3.siw.model.Recensione;
 
 public interface RecensioneRepository extends CrudRepository<Recensione, Long> {
 
+    Double findMediaVotiByVideogiocoId(Long videogiocoId);
+
     
     //metodi come in books
 }
