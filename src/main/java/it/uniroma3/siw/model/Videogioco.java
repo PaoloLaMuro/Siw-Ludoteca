@@ -13,6 +13,8 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 
@@ -39,7 +41,8 @@ public class Videogioco {
     private PegiRating pegi;
 
 
-    @OneToOne
+    @ManyToOne
+    @JoinColumn(name = "casa_produttrice_id")
     private CasaProduttrice casaProduttrice;
 
 
@@ -49,6 +52,7 @@ public class Videogioco {
 
     @OneToOne
     private Immagine copertina;
+
 
 
     public Long getId() {

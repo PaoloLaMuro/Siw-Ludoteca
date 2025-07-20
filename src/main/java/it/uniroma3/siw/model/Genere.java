@@ -30,4 +30,6 @@ public enum Genere{
     public String toString() {
         return descrizione;
     }
+
+    
 }
