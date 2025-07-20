@@ -13,7 +13,7 @@ public interface VideogiocoRepository extends CrudRepository<Videogioco, Long> {
 
 
     @Query("SELECT v FROM Videogioco v JOIN FETCH v.casaProduttrice")
-    List<Videogioco> findAllWithCasaProduttrice();
+    List<Videogioco> findAllByCasaProduttrice();
     
 
     /* 

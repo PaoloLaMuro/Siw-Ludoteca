@@ -71,3 +71,16 @@ footer {
     margin-bottom: 1rem;
     background: #222;
 }
+/* Uniforma le dimensioni delle card dei videogiochi */
+.game-card {
+    min-height: 420px;
+    max-height: 420px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    /* Puoi anche fissare la larghezza se vuoi */
+    /* width: 100%; */
+}
+.game-card img.game-cover {
+    align-self: center;
+}

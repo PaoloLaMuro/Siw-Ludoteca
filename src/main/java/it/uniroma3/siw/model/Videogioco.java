@@ -51,6 +51,7 @@ public class Videogioco {
 
 
     @OneToOne
+    @JoinColumn(name = "copertina_id")  //test per vedere senza immagini
     private Immagine copertina;
 
 

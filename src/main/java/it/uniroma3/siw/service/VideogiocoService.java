@@ -60,7 +60,7 @@ public class VideogiocoService {
 
     @Transactional
     public List<Videogioco> findAll() {
-        return videogiocoRepository.findAllWithCasaProduttrice();
+        return videogiocoRepository.findAllByCasaProduttrice();
     }
 
 
