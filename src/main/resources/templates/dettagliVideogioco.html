@@ -32,46 +32,50 @@
         </div>
     </div>
     <div th:if="${videogioco != null}">
-    <h1 th:text="${videogioco.titolo}">Titolo Videogioco</h1>
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="game-card">
-                <div th:if="${videogioco.copertina != null}">
-                    <img th:src="@{'/images/' + ${videogioco.copertina.fileName}}" alt="Copertina" class="game-cover mb-2"/>
-                </div>
-                <p>
-                    <strong style="color:#ff2a2a;">Genere:</strong>
-                    <span th:text="${videogioco.genere}">Genere</span>
-                </p>
-                <p>
-                    <strong style="color:#ff2a2a;">Descrizione:</strong>
-                    <span th:text="${videogioco.descrizione}">Descrizione...</span>
-                </p>
-                <p>
-                    <strong style="color:#ff2a2a;">Data di uscita:</strong>
-                    <span th:text="${#temporals.format(videogioco.dataUscita, 'dd/MM/yyyy')}">Data</span>
-                </p>
-                <p>
-                    <strong style="color:#ff2a2a;">PEGI:</strong>
-                    <span th:text="${videogioco.pegi}">PEGI</span>
-                </p>
-                <p>
-                    <strong style="color:#ff2a2a;">Casa produttrice:</strong>
-                    <span th:text="${videogioco.casaProduttrice.nome}">Casa Produttrice</span>
-                </p>
-                <div th:if="${videogioco.recensioni != null and !videogioco.recensioni.empty}">
-                    <hr>
-                    <h4 style="color:#ff2a2a;">Recensioni</h4>
-                    <ul>
-                        <li th:each="rec : ${videogioco.recensioni}">
-                            <span th:text="${rec.testo}">Testo recensione</span>
-                            <span th:if="${rec.voto != null}"> - <strong>Voto:</strong> <span th:text="${rec.voto}">Voto</span></span>
-                        </li>
-                    </ul>
-                </div>
-                <div th:if="${videogioco.recensioni == null or videogiochi.recensioni.empty}">
-                    <hr>
-                    <p>Nessuna recensione disponibile.</p>
+        <h1 th:text="${videogioco.titolo}">Titolo Videogioco</h1>
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="game-card">
+                    <div th:if="${videogioco.copertina != null}">
+                        <img th:src="@{'/images/' + ${videogioco.copertina.fileName}}" alt="Copertina" class="game-cover mb-2"/>
+                    </div>
+                    <p>
+                        <strong style="color:#ff2a2a;">Genere:</strong>
+                        <span th:text="${videogioco.genere}">Genere</span>
+                    </p>
+                    <p>
+                        <strong style="color:#ff2a2a;">Descrizione:</strong>
+                        <span th:text="${videogioco.descrizione}">Descrizione...</span>
+                    </p>
+                    <p>
+                        <strong style="color:#ff2a2a;">Data di uscita:</strong>
+                        <span th:text="${#temporals.format(videogioco.dataUscita, 'dd/MM/yyyy')}">Data</span>
+                    </p>
+                    <p>
+                        <strong style="color:#ff2a2a;">PEGI:</strong>
+                        <span th:text="${videogioco.pegi}">PEGI</span>
+                    </p>
+                    <p>
+                        <strong style="color:#ff2a2a;">Casa produttrice:</strong>
+                        <span th:text="${videogioco.casaProduttrice.nome}">Casa Produttrice</span>
+                    </p>
+                    <div th:if="${videogioco.recensioni != null and !videogioco.recensioni.empty}">
+                        <hr>
+                        <h4 style="color:#ff2a2a;">Recensioni</h4>
+                        <ul>
+                            <li th:each="rec : ${recensioni}">
+                                <strong th:text="${rec.titolo}">Titolo recensione</strong><br>
+                                <span th:text="${rec.testo}">Testo recensione</span><br>
+                                <span><strong>Voto:</strong> <span th:text="${rec.voto}">Voto</span></span><br>
+                                <span><strong>Autore:</strong> <span th:text="${rec.autore.name} + ' ' + ${rec.autore.surname}">Autore</span></span>
+                                <hr>
+                            </li>
+                        </ul>
+</div>
+<div th:if="${recensioni == null or #lists.size(recensioni) == 0}">
+    <hr>
+    <p>Nessuna recensione disponibile.</p>
+                    </div>
                 </div>
             </div>
         </div>

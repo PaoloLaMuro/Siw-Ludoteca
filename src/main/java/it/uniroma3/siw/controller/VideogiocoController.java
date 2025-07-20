@@ -1,19 +1,26 @@
 package it.uniroma3.siw.controller;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import it.uniroma3.siw.model.Recensione;
 import it.uniroma3.siw.model.Videogioco;
+import it.uniroma3.siw.service.RecensioneService;
 import it.uniroma3.siw.service.VideogiocoService;
+import jakarta.transaction.Transactional;
 
 @Controller
 public class VideogiocoController {
 
     @Autowired
     private VideogiocoService videogiocoService;
+    @Autowired
+    private RecensioneService recensioneService;
 
     @GetMapping("/videogiochi")
     public String listVideogiochi(Model model) {
@@ -22,14 +29,17 @@ public class VideogiocoController {
     }
 
     @GetMapping("/videogioco/{id}")
-    public String getVideogioco(@PathVariable Long id, Model model) {
-        Videogioco videogioco = videogiocoService.findById(id);
-        if (videogioco != null) {
+    @Transactional
+    public String getVideogioco(@PathVariable("id") Long id, Model model) {
+         Optional<Videogioco> videogiocoOpt = videogiocoService.getVideogiocoById(id);
+        if (videogiocoOpt.isPresent()) {
+            Videogioco videogioco = videogiocoOpt.get();
+            Iterable<Recensione> recensioni = recensioneService.getRecensioniByVideogioco(videogioco);
             model.addAttribute("videogioco", videogioco);
+            model.addAttribute("recensioni", recensioni);
             return "dettagliVideogioco";
-        } else {
-            return "error";
         }
+        return "dettagliVideogioco";
     }
 
 }

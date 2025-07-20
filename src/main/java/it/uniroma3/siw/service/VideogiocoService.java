@@ -35,8 +35,8 @@ public class VideogiocoService {
 
 
     @Transactional
-    public Videogioco getVideogiocoById(Long id) {
-        return this.videogiocoRepository.findById(id).orElse(null);
+    public Optional<Videogioco> getVideogiocoById(Long id) {
+        return this.videogiocoRepository.findById(id);
     }
 
     public Iterable<Videogioco> getAllVideogiochi() {

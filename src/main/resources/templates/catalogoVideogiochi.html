@@ -34,36 +34,37 @@
         </div>
     </div>
     <div th:if="${not videogiochi.empty}">
-        <div class="row">
+        <div class="row videogiochi-row">
             <div class="col-md-6 col-lg-4" th:each="gioco : ${videogiochi}">
-                <div class="game-card">
-                    <div th:if="${gioco.copertina != null}">
-                        <img th:src="@{'/images/' + ${gioco.copertina.fileName}}" alt="Copertina" class="game-cover mb-2"/>
+                <a th:href="@{/videogioco/{id}(id=${gioco.id})}" style="text-decoration:none;">
+                    <div class="game-card">
+                        <div th:if="${gioco.copertina != null}">
+                            <img th:src="@{'/images/' + ${gioco.copertina.fileName}}" alt="Copertina" class="game-cover mb-2"/>
+                        </div>
+                        <h2 th:text="${gioco.titolo}">Titolo Videogioco</h2>
+                        <p>
+                            <strong style="color:#ff2a2a;">Genere:</strong>
+                            <span th:text="${gioco.genere}">Genere</span>
+                        </p>
+                        <p th:text="${gioco.descrizione}">Descrizione...</p>
+                        <p>
+                            <strong style="color:#ff2a2a;">Data di uscita:</strong>
+                            <span th:text="${#temporals.format(gioco.dataUscita, 'dd/MM/yyyy')}">Data</span>
+                        </p>
+                        <p>
+                            <strong style="color:#ff2a2a;">PEGI:</strong>
+                            <span th:text="${gioco.pegi}">PEGI</span>
+                        </p>
+                        <p>
+                            <strong style="color:#ff2a2a;">Casa produttrice:</strong>
+                            <span th:text="${gioco.casaProduttrice.nome}">Casa Produttrice</span>
+                        </p>
                     </div>
-                    <h2 th:text="${gioco.titolo}">Titolo Videogioco</h2>
-                    <p>
-                        <strong style="color:#ff2a2a;">Genere:</strong>
-                        <span th:text="${gioco.genere}">Genere</span>
-                    </p>
-                    <p th:text="${gioco.descrizione}">Descrizione...</p>
-                    <p>
-                        <strong style="color:#ff2a2a;">Data di uscita:</strong>
-                        <span th:text="${#temporals.format(gioco.dataUscita, 'dd/MM/yyyy')}">Data</span>
-                    </p>
-                    <p>
-                        <strong style="color:#ff2a2a;">PEGI:</strong>
-                        <span th:text="${gioco.pegi}">PEGI</span>
-                    </p>
-                    <p>
-                        <strong style="color:#ff2a2a;">Casa produttrice:</strong>
-                        <span th:text="${gioco.casaProduttrice.nome}">Casa Produttrice</span>
-                    </p>
-                </div>
+                </a>
             </div>
         </div>
     </div>
 </div>
-
 <footer>
     <hr>
     <p>&copy; 2025 Gli Archivi del Duca</p>
