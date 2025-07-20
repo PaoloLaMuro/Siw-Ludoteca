@@ -6,7 +6,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import it.uniroma3.siw.service.CasaProduttriceService;
-import jakarta.persistence.criteria.CriteriaBuilder.Case;
 
 @Controller
 public class CasaProduttriceController {
@@ -21,4 +20,8 @@ public class CasaProduttriceController {
         return "caseProduttrici";
     }
 
+
+
+
+    
 }
