@@ -1,0 +1,73 @@
+body {
+    background-color: #000;
+    color: #fff;
+    font-family: Arial, sans-serif;
+    margin: 30px;
+}
+.container-main {
+    margin-left: 40px;
+    margin-right: 40px;
+}
+.navbar, header nav {
+    background-color: #000 !important;
+    border-bottom: 2px solid #ff2a2a;
+    margin-bottom: 20px;
+}
+.navbar a, header nav a {
+    color: #fff !important;
+    border-bottom: 2px solid transparent;
+    transition: border-color 0.2s, color 0.2s;
+    text-decoration: none;
+    padding: 14px 20px;
+    display: inline-block;
+}
+.navbar a:hover, header nav a:hover {
+    color: #ff2a2a !important;
+    border-bottom: 2px solid #ff2a2a;
+    background-color: transparent !important;
+}
+header h1 {
+    color: #ff2a2a;
+    text-shadow: 1px 1px 4px #222;
+    margin-bottom: 0.5rem;
+}
+hr {
+    border-top: 2px solid #ff2a2a;
+    margin: 0.5rem 0;
+}
+.content h1 {
+    color: #ff2a2a;
+}
+.content {
+    padding: 20px;
+    text-align: center;
+    margin-bottom: 30px;
+}
+footer {
+    background: #000;
+    color: #fff;
+    text-align: center;
+    padding: 1rem 0;
+    margin-top: 30px;
+}
+/* Card styles for videogiochi and case produttrici */
+.producer-card, .game-card {
+    background: #111;
+    border: 1px solid #ff2a2a;
+    border-radius: 10px;
+    margin-bottom: 1.5rem;
+    padding: 1.5rem;
+    color: #fff;
+    box-shadow: 0 2px 8px #222;
+}
+.producer-card h2, .game-card h2 {
+    color: #ff2a2a;
+}
+.producer-logo, .game-cover {
+    max-width: 120px;
+    max-height: 120px;
+    border-radius: 8px;
+    border: 2px solid #ff2a2a;
+    margin-bottom: 1rem;
+    background: #222;
+}

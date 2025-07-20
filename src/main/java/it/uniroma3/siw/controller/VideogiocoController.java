@@ -18,7 +18,7 @@ public class VideogiocoController {
     @GetMapping("/videogiochi")
     public String listVideogiochi(Model model) {
         model.addAttribute("videogiochi", videogiocoService.findAll());
-        return "videogiochi";
+        return "catalogoVideogiochi";
     }
 
     @GetMapping("/videogioco/{id}")
@@ -26,7 +26,7 @@ public class VideogiocoController {
         Videogioco videogioco = videogiocoService.findById(id);
         if (videogioco != null) {
             model.addAttribute("videogioco", videogioco);
-            return "videogiocoDetails";
+            return "dettagliVideogioco";
         } else {
             return "error";
         }
