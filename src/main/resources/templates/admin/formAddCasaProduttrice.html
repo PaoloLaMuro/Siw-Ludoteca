@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Nuova Casa Produttrice</title>
+</head>
+<body>
+    <h1>Inserisci una nuova Casa Produttrice</h1>
+    <form th:action="@{/admin/saveCasaProduttrice}" th:object="${casaProduttrice}" method="post" enctype="multipart/form-data">
+        <div>
+            <label for="nome">Nome:</label>
+            <input type="text" id="nome" th:field="*{nome}" required />
+        </div>
+        <div>
+            <label for="testo">Descrizione:</label>
+            <textarea id="testo" th:field="*{testo}" rows="5" required></textarea>
+        </div>
+        <div>
+            <label for="annoPubblicazione">Anno di Pubblicazione:</label>
+            <input type="number" id="annoPubblicazione" th:field="*{annoPubblicazione}" required />
+        </div>
+        <div>
+            <label for="fileLogo">Logo:</label>
+            <input type="file" id="fileLogo" name="fileLogo" />
+        </div>
+        <div>
+            <button type="submit">Salva</button>
+        </div>
+    </form>
+    <a th:href="@{/admin/caseProduttrici}">Torna alla lista delle Case Produttrici</a>
+</body>
+</html>

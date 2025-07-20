@@ -6,7 +6,7 @@
 <body>
 <h1>Inserisci un nuovo videogioco</h1>
 
-<form th:action="@{admin/saveVideogiochi}" th:object="${videogioco}" method="post" enctype="multipart/form-data">
+<form th:action="@{/admin/saveVideogioco}" th:object="${videogioco}" method="post" enctype="multipart/form-data">
     <label for="titolo">Titolo:</label>
     <input type="text" id="titolo" th:field="*{titolo}" required/><br/>
 
