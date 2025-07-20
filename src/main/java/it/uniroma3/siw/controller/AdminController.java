@@ -96,7 +96,7 @@ public String addCasaProduttrice(@Valid @ModelAttribute("casaProduttrice") CasaP
     }
 
     casaProduttriceRepository.save(casaProduttrice);
-    return "redirect:/admin/caseProduttrici"; // Reindirizza alla lista delle case produttrici
+    return "redirect:/caseProduttrici"; // Reindirizza alla lista delle case produttrici
 }
 
 
