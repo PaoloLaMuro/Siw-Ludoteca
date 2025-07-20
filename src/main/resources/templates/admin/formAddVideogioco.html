@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Nuovo Videogioco</title>
+</head>
+<body>
+<h1>Inserisci un nuovo videogioco</h1>
+
+<form th:action="@{admin/saveVideogiochi}" th:object="${videogioco}" method="post" enctype="multipart/form-data">
+    <label for="titolo">Titolo:</label>
+    <input type="text" id="titolo" th:field="*{titolo}" required/><br/>
+
+    <label for="genere">Genere:</label>
+    <select id="genere" th:field="*{genere}">
+        <option th:each="g : ${generi}" th:value="${g}" th:text="${g}"></option>
+    </select><br/>
+
+    <label for="descrizione">Descrizione:</label>
+    <textarea id="descrizione" th:field="*{descrizione}" maxlength="2000"></textarea><br/>
+
+    <label for="dataUscita">Data di uscita:</label>
+    <input type="date" id="dataUscita" th:field="*{dataUscita}"/><br/>
+
+    <label for="pegi">PEGI Rating:</label>
+    <select id="pegi" th:field="*{pegi}">
+        <option th:each="p : ${pegiRatings}" th:value="${p}" th:text="${p}"></option>
+    </select><br/>
+
+    <label for="casaProduttrice">Casa produttrice:</label>
+    <select id="casaProduttrice" th:field="*{casaProduttrice}">
+        <option th:each="c : ${caseProduttrici}" th:value="${c}" th:text="${c.nome}"></option>
+    </select><br/>
+
+    <label for="copertinaFile">Copertina (immagine):</label>
+    <input type="file" id="copertinaFile" name="copertinaFile" accept="image/*" required/><br/>
+
+    <button type="submit">Salva videogioco</button>
+</form>
+
+</body>
+</html>
