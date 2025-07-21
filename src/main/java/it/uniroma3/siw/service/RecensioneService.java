@@ -1,5 +1,7 @@
 package it.uniroma3.siw.service;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,4 +21,19 @@ public class RecensioneService {
     public Iterable<Recensione> getRecensioniByVideogiocoId(Long videogiocoId) {
         return this.recensioneRepository.findByVideogiocoId(videogiocoId);
     }
+
+    public void save(Recensione recensione) {
+        this.recensioneRepository.save(recensione);
+    }
+
+    public Optional<Recensione> getRecensioneById(Long id) {
+        return this.recensioneRepository.findById(id);
+    }
+
+    public void deleteById(Long id) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'deleteById'");
+    }
+
+
 }

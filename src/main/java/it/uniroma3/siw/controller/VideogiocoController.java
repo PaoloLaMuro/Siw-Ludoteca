@@ -4,10 +4,13 @@ import java.io.IOException;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,6 +21,7 @@ import it.uniroma3.siw.model.Genere;
 import it.uniroma3.siw.model.Immagine;
 import it.uniroma3.siw.model.PegiRating;
 import it.uniroma3.siw.model.Recensione;
+import it.uniroma3.siw.model.User;
 import it.uniroma3.siw.model.Videogioco;
 import it.uniroma3.siw.repository.CasaProduttriceRepository;
 import it.uniroma3.siw.repository.ImmagineRepository;
@@ -43,6 +47,8 @@ public class VideogiocoController {
     private VideogiocoService videogiocoService;
     @Autowired
     private RecensioneService recensioneService;
+    @Autowired
+    private CredentialsService credentialsService;
 
     @GetMapping("/videogiochi")
     public String listVideogiochi(Model model) {

@@ -59,7 +59,7 @@
                         <strong style="color:#ff2a2a;">Casa produttrice:</strong>
                         <span th:text="${videogioco.casaProduttrice.nome}">Casa Produttrice</span>
                     </p>
-                    <div th:if="${videogioco.recensioni != null and !videogioco.recensioni.empty}">
+                    <div th:if="${recensioni != null and #lists.size(recensioni) > 0}">
                         <hr>
                         <h4 style="color:#ff2a2a;">Recensioni</h4>
                         <ul>
@@ -68,13 +68,29 @@
                                 <span th:text="${rec.testo}">Testo recensione</span><br>
                                 <span><strong>Voto:</strong> <span th:text="${rec.voto}">Voto</span></span><br>
                                 <span><strong>Autore:</strong> <span th:text="${rec.autore.name} + ' ' + ${rec.autore.surname}">Autore</span></span>
+                                <!-- Bottone elimina solo per l'autore -->
+                                <form th:if="${#authorization.expr('isAuthenticated()') and #authentication.principal.username == rec.autore.email}" th:action="@{/recensione/{id}/delete(id=${rec.id})}" method="post" style="display:inline;">
+                                    <button type="submit" class="btn btn-sm btn-outline-danger mt-2">Elimina</button>
+                                </form>
                                 <hr>
                             </li>
                         </ul>
-</div>
-<div th:if="${recensioni == null or #lists.size(recensioni) == 0}">
-    <hr>
-    <p>Nessuna recensione disponibile.</p>
+                        <!-- Bottone aggiungi recensione per tutti gli utenti loggati -->
+                        <div class="text-center mt-3" th:if="${#authorization.expr('isAuthenticated()')}">
+                            <a th:href="@{/videogioco/{id}/nuovaRecensione(id=${videogioco.id})}" class="btn btn-danger">
+                                Aggiungi una recensione
+                            </a>
+                        </div>
+                    </div>
+                    <div th:if="${recensioni == null or #lists.size(recensioni) == 0}">
+                        <hr>
+                        <p>Nessuna recensione disponibile.</p>
+                        <!-- Bottone aggiungi recensione per tutti gli utenti loggati -->
+                        <div class="text-center mt-3" th:if="${#authorization.expr('isAuthenticated()')}">
+                            <a th:href="@{/videogioco/{id}/nuovaRecensione(id=${videogioco.id})}" class="btn btn-danger">
+                                Aggiungi una recensione
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
