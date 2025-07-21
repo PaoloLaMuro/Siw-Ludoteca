@@ -15,13 +15,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import it.uniroma3.siw.model.CasaProduttrice;
-import it.uniroma3.siw.model.Genere;
 import it.uniroma3.siw.model.Immagine;
-import it.uniroma3.siw.model.PegiRating;
-import it.uniroma3.siw.model.Videogioco;
 import it.uniroma3.siw.repository.CasaProduttriceRepository;
 import it.uniroma3.siw.repository.ImmagineRepository;
-import it.uniroma3.siw.repository.VideogiocoRepository;
 import jakarta.validation.Valid;
 
 @Controller
@@ -31,8 +27,6 @@ public class AdminController {
     @Autowired
     private ImmagineRepository immagineRepository;
 
-    @Autowired
-    private VideogiocoRepository videogiocoRepository;
 
     @Autowired
     private CasaProduttriceRepository casaProduttriceRepository;
@@ -40,40 +34,7 @@ public class AdminController {
 
 
 
-//metodo getMapping che mi restituisce la pagina dove l'admin ha la form per inserire un nuovo videogioco
-     @GetMapping("/admin/addVideogioco")
-         public String mostraFormNuovoVideogioco(Model model) {
-        model.addAttribute("videogioco", new Videogioco());
-        model.addAttribute("generi", Genere.values());
-        model.addAttribute("pegiRatings", PegiRating.values());
-        model.addAttribute("caseProduttrici", casaProduttriceRepository.findAll());
-        return "admin/formAddVideogioco";
-    }
-     
 
-    @PostMapping("/admin/saveVideogioco")
-    @Transactional
-    public String addVideogioco(@Valid @ModelAttribute("videogioco") Videogioco videogioco,
-                                 BindingResult bindingResult,
-                                 @RequestParam(value = "copertinaFile", required = false) MultipartFile copertinaFile,
-                                 Model model) throws IOException {
-        if (bindingResult.hasErrors()) {
-            model.addAttribute("generi", Genere.values());
-            model.addAttribute("pegiRatings", PegiRating.values());
-            model.addAttribute("caseProduttrici", casaProduttriceRepository.findAll());
-            return "admin/formAddVideogioco"; // Ritorna alla form se ci sono errori
-        }
-
-        if (copertinaFile != null && !copertinaFile.isEmpty()) {
-            Immagine immagine = new Immagine();
-            immagine.setImageData(copertinaFile.getBytes());
-            videogioco.setCopertina(immagine);
-        }
-
-        videogiocoRepository.save(videogioco);
-        return "redirect:/admin/videogiochi"; // Reindirizza alla lista dei videogiochi
-    }
-    
 
 
      @GetMapping("/admin/addCasaProduttrice")
@@ -161,5 +122,7 @@ public String eliminaCasaProduttrice(@PathVariable("id") Long id) {
     }
     return "redirect:/caseProduttrici"; // Reindirizza alla lista delle case produttrici
 }
+
+
 
 }
