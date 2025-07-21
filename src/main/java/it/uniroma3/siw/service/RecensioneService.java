@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import it.uniroma3.siw.model.Recensione;
+import it.uniroma3.siw.model.User;
 import it.uniroma3.siw.model.Videogioco;
 import it.uniroma3.siw.repository.RecensioneRepository;
 import jakarta.transaction.Transactional;
@@ -15,6 +16,10 @@ import jakarta.transaction.Transactional;
 public class RecensioneService {
     @Autowired
     private RecensioneRepository recensioneRepository;
+
+    public List<Recensione> getRecensioniByAutore(User autore) {
+    return recensioneRepository.findByAutore(autore);
+}
 
     public List<Recensione> getRecensioniByVideogioco(Videogioco videogioco) {
         return (List<Recensione>) this.recensioneRepository.findByVideogioco(videogioco);

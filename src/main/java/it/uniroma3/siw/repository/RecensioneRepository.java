@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.data.repository.CrudRepository;
 
 import it.uniroma3.siw.model.Recensione;
+import it.uniroma3.siw.model.User;
 import it.uniroma3.siw.model.Videogioco;
 
 public interface RecensioneRepository extends CrudRepository<Recensione, Long> {
@@ -15,6 +16,8 @@ public interface RecensioneRepository extends CrudRepository<Recensione, Long> {
     List<Recensione> findByVideogioco(Videogioco videogioco);
 
     List<Recensione> findByVideogiocoId(Long videogiocoId);
+
+    List<Recensione> findByAutore(User autore);
 
     
     //metodi come in books

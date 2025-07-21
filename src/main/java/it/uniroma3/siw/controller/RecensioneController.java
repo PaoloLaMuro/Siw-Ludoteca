@@ -34,6 +34,16 @@ public class RecensioneController {
     @Autowired
     CredentialsService credentialsService;
 
+    @GetMapping("/user/recensioni")
+    public String recensioniUtente(Model model) {
+    UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    Credentials credentials = credentialsService.getCredentials(userDetails.getUsername());
+    User user = credentials.getUser();
+    model.addAttribute("user", user);
+    model.addAttribute("recensioni", recensioneService.getRecensioniByAutore(user));
+    return "user/recensioneUser";
+}
+
 
     @PostAuthorize("/recensione/{id}/delete(id=${rec.id})")
     public String deleteRecensione(@PathVariable("id") Long id, Model model) {
@@ -82,5 +92,7 @@ public String salvaRecensione(@PathVariable("id") Long id, @ModelAttribute("rece
     recensioneService.save(recensione);
     return "redirect:/videogioco/" + id;
 }
+
+
 
 }
