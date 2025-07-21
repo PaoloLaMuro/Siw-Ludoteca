@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import it.uniroma3.siw.model.Credentials;
 import it.uniroma3.siw.model.Genere;
 import it.uniroma3.siw.model.Immagine;
 import it.uniroma3.siw.model.PegiRating;
@@ -26,6 +27,7 @@ import it.uniroma3.siw.model.Videogioco;
 import it.uniroma3.siw.repository.CasaProduttriceRepository;
 import it.uniroma3.siw.repository.ImmagineRepository;
 import it.uniroma3.siw.repository.VideogiocoRepository;
+import it.uniroma3.siw.service.CredentialsService;
 import it.uniroma3.siw.service.RecensioneService;
 import it.uniroma3.siw.service.VideogiocoService;
 import jakarta.transaction.Transactional;
@@ -70,26 +72,6 @@ public class VideogiocoController {
         return "dettagliVideogioco";
     }
 
-    // GET: mostra la form
-@GetMapping("/videogioco/{id}/nuovaRecensione")
-public String nuovaRecensioneForm(@PathVariable("id") Long id, Model model) {
-    Videogioco videogioco = videogiocoService.getVideogiocoById(id).orElse(null);
-    model.addAttribute("videogioco", videogioco);
-    model.addAttribute("recensione", new Recensione());
-    return "user/nuovaRecensione";
-}
 
-// POST: salva la recensione
-@PostMapping("/videogioco/{id}/nuovaRecensione")
-public String salvaRecensione(@PathVariable("id") Long id, @ModelAttribute("recensione") Recensione recensione) {
-    Videogioco videogioco = videogiocoService.getVideogiocoById(id).orElse(null);
-    UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-    Credentials credentials = credentialsService.getCredentials(userDetails.getUsername());
-    User user = credentials.getUser();
-    recensione.setVideogioco(videogioco);
-    recensione.setAutore(user);
-    recensioneService.save(recensione);
-    return "redirect:/videogioco/" + id;
-}
 
 }
