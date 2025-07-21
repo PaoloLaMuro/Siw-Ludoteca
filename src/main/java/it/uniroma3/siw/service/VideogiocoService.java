@@ -1,7 +1,6 @@
 package it.uniroma3.siw.service;
 
 import java.io.IOException;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 
@@ -12,7 +11,6 @@ import org.springframework.web.multipart.MultipartFile;
 import it.uniroma3.siw.model.CasaProduttrice;
 import it.uniroma3.siw.model.Immagine;
 import it.uniroma3.siw.model.Videogioco;
-import it.uniroma3.siw.repository.CasaProduttriceRepository;
 import it.uniroma3.siw.repository.ImmagineRepository;
 import it.uniroma3.siw.repository.RecensioneRepository;
 import it.uniroma3.siw.repository.VideogiocoRepository;
@@ -27,8 +25,7 @@ public class VideogiocoService {
     @Autowired
     private ImmagineRepository immagineRepository;
 
-    @Autowired
-    private CasaProduttriceRepository casaProduttriceRepository;
+ 
 
     @Autowired
     private RecensioneRepository recensioneRepository;
