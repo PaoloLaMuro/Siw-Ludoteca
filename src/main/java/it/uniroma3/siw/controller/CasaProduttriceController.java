@@ -16,10 +16,11 @@ public class CasaProduttriceController {
 
     @GetMapping("/caseProduttrici")
     public String getCaseProduttrici(Model model) {
-        model.addAttribute("caseProduttrici", casaProduttriceService.getAllCaseProduttrici());
+        var caseProduttrici = casaProduttriceService.getAllCaseProduttrici();
+        System.out.println("Case Produttrici trovate: " + caseProduttrici);
+        model.addAttribute("caseProduttrici", caseProduttrici);
         return "caseProduttrici";
     }
-
 
 
 

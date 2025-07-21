@@ -111,7 +111,7 @@ public String mostraFormModificaCasaProduttrice(@PathVariable("id") Long id, Mod
         return "redirect:/caseProduttrici"; // Reindirizza se l'ID non esiste
     }
     model.addAttribute("casaProduttrice", casaProduttrice);
-    return "admin/formEditCasaProduttrice";
+    return "admin/formUpdateCasaProduttrice";
 }
 
 @PostMapping("/admin/updateCasaProduttrice/{id}")
