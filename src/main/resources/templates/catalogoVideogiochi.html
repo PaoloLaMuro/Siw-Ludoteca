@@ -38,8 +38,11 @@
             <div class="col-md-6 col-lg-4" th:each="gioco : ${videogiochi}">
                 <a th:href="@{/videogioco/{id}(id=${gioco.id})}" style="text-decoration:none;">
                     <div class="game-card">
-                        <div th:if="${gioco.copertina != null}">
-                            <img th:src="@{'/images/' + ${gioco.copertina.fileName}}" alt="Copertina" class="game-cover mb-2"/>
+                        <div th:if="${gioco.copertina != null and gioco.copertina.generateBase64Image() != null}">
+                            <img th:src="'data:image/png;base64,' + ${gioco.copertina.generateBase64Image()}" 
+                                 alt="Copertina" 
+                                 class="game-cover mb-2" 
+                                 style="width: 120px; height: 160px; object-fit: cover;" />
                         </div>
                         <h2 th:text="${gioco.titolo}">Titolo Videogioco</h2>
                         <p>
@@ -61,11 +64,12 @@
                         </p>
 
                         <!-- Pulsanti visibili solo per admin -->
-                        <div th:if="${#authorization.expr('hasRole(''ADMIN'')')}">
+                        <div class="admin-actions" sec:authorize="hasAuthority('ADMIN')">
                             <a th:href="@{/admin/editVideogioco/{id}(id=${gioco.id})}" class="btn btn-warning btn-sm">
                                 <i class="bi bi-pencil"></i> Modifica
                             </a>
                             <form th:action="@{/admin/deleteVideogioco/{id}(id=${gioco.id})}" method="post" style="display:inline;">
+                                <input type="hidden" name="_method" value="delete" />
                                 <button type="submit" class="btn btn-danger btn-sm">
                                     <i class="bi bi-x"></i> Elimina
                                 </button>
