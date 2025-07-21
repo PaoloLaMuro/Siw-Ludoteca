@@ -32,7 +32,7 @@ public class RecensioneService {
 
     public void deleteById(Long id) {
         // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'deleteById'");
+        this.recensioneRepository.deleteById(id);
     }
 
 

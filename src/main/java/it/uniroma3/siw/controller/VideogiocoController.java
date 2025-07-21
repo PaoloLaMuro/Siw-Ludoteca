@@ -51,26 +51,6 @@ public class VideogiocoController {
         return "dettagliVideogioco";
     }
 
-    // GET: mostra la form
-@GetMapping("/videogioco/{id}/nuovaRecensione")
-public String nuovaRecensioneForm(@PathVariable("id") Long id, Model model) {
-    Videogioco videogioco = videogiocoService.getVideogiocoById(id).orElse(null);
-    model.addAttribute("videogioco", videogioco);
-    model.addAttribute("recensione", new Recensione());
-    return "user/nuovaRecensione";
-}
-
-// POST: salva la recensione
-@PostMapping("/videogioco/{id}/nuovaRecensione")
-public String salvaRecensione(@PathVariable("id") Long id, @ModelAttribute("recensione") Recensione recensione) {
-    Videogioco videogioco = videogiocoService.getVideogiocoById(id).orElse(null);
-    UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-    Credentials credentials = credentialsService.getCredentials(userDetails.getUsername());
-    User user = credentials.getUser();
-    recensione.setVideogioco(videogioco);
-    recensione.setAutore(user);
-    recensioneService.save(recensione);
-    return "redirect:/videogioco/" + id;
-}
+ 
 
 }
