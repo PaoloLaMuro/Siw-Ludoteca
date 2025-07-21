@@ -1,6 +1,7 @@
 package it.uniroma3.siw.controller;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,9 +65,19 @@ public class VideogiocoController {
          Optional<Videogioco> videogiocoOpt = videogiocoService.getVideogiocoById(id);
         if (videogiocoOpt.isPresent()) {
             Videogioco videogioco = videogiocoOpt.get();
-            Iterable<Recensione> recensioni = recensioneService.getRecensioniByVideogioco(videogioco);
+            List<Recensione> recensioni = recensioneService.getRecensioniByVideogioco(videogioco);
             model.addAttribute("videogioco", videogioco);
             model.addAttribute("recensioni", recensioni);
+
+            // AGGIUNGI QUESTO BLOCCO
+        if (SecurityContextHolder.getContext().getAuthentication().isAuthenticated()
+            && !SecurityContextHolder.getContext().getAuthentication().getPrincipal().equals("anonymousUser")) {
+            UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            Credentials credentials = credentialsService.getCredentials(userDetails.getUsername());
+            User user = credentials.getUser();
+            model.addAttribute("loggedUserId", user.getId());
+        }
+
             return "dettagliVideogioco";
         }
         return "dettagliVideogioco";

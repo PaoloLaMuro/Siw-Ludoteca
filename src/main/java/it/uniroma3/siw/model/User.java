@@ -21,7 +21,7 @@ public class User {
 
     
 
-    @OneToMany(mappedBy = "autore")
+    @OneToMany(mappedBy = "autore", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Recensione> recensioni;
 
     

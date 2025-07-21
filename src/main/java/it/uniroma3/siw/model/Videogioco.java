@@ -1,6 +1,7 @@
 package it.uniroma3.siw.model;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.format.annotation.DateTimeFormat;
@@ -46,7 +47,7 @@ public class Videogioco {
     private CasaProduttrice casaProduttrice;
 
 
-    @OneToMany(mappedBy = "videogioco", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "videogioco", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Recensione> recensioni;
 
 
@@ -54,6 +55,11 @@ public class Videogioco {
     @JoinColumn(name = "copertina_id")  //test per vedere senza immagini
     private Immagine copertina;
 
+    
+    public Videogioco() {
+        this.recensioni = new ArrayList<>();   // Default constructor
+    }
+    
 
 
     public Long getId() {
