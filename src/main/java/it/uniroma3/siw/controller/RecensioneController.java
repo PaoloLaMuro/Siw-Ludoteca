@@ -33,83 +33,82 @@ public class RecensioneController {
     @Autowired
     CredentialsService credentialsService;
 
-
-    //attenzione a questo optional tra qua e recensione service non sono sicurissimo !!!!!
     @PostMapping("/recensione/{id}/delete")
-    public String eliminaRecensione(@PathVariable("id") Long id) {
+    public String eliminaRecensione(@PathVariable("id") Long id, RedirectAttributes redirectAttributes) {
+        System.out.println("Tentativo di eliminazione della recensione con ID: " + id);
+
         Optional<Recensione> recensioneOpt = recensioneService.getRecensioneById(id);
         if (recensioneOpt.isPresent()) {
-            Recensione recensione = recensioneOpt.get();
-            Long videogiocoId = recensione.getVideogioco().getId();
+            System.out.println("Recensione trovata: " + recensioneOpt.get());
             recensioneService.deleteById(id);
-            return "redirect:/videogioco/" + videogiocoId;
+            System.out.println("Recensione eliminata con successo.");
+            redirectAttributes.addFlashAttribute("successMessage", "Recensione eliminata con successo!");
+        } else {
+            System.out.println("Recensione con ID " + id + " non trovata.");
+            redirectAttributes.addFlashAttribute("errorMessage", "Recensione non trovata.");
         }
-        // Se non trovata, puoi reindirizzare dove preferisci (es. lista videogiochi)
-        return "redirect:/videogiochi";
+
+        System.out.println("Reindirizzamento alla pagina delle recensioni dell'utente.");
+        return "redirect:/user/recensioni";
     }
 
-       // GET: mostra la form
-        @GetMapping("/videogioco/{id}/nuovaRecensione")
-        public String nuovaRecensioneForm(@PathVariable("id") Long id, Model model) {
-            Videogioco videogioco = videogiocoService.getVideogiocoById(id).orElse(null);
-            model.addAttribute("videogioco", videogioco);
-            model.addAttribute("recensione", new Recensione());
-            return "user/nuovaRecensione";
+    // GET: mostra la form
+    @GetMapping("/videogioco/{id}/nuovaRecensione")
+    public String nuovaRecensioneForm(@PathVariable("id") Long id, Model model) {
+        Videogioco videogioco = videogiocoService.getVideogiocoById(id).orElse(null);
+        model.addAttribute("videogioco", videogioco);
+        model.addAttribute("recensione", new Recensione());
+        return "user/nuovaRecensione";
+    }
+
+    @PostMapping("/videogioco/{id}/nuovaRecensione")
+    public String salvaRecensione(@PathVariable("id") Long id, @ModelAttribute("recensione") Recensione recensione, RedirectAttributes redirectAttributes) {
+        Videogioco videogioco = videogiocoService.getVideogiocoById(id).orElse(null);
+        if (videogioco == null) {
+            return "redirect:/videogiochi";
         }
-        /*
-        @PostMapping("/videogioco/{id}/nuovaRecensione")
-        public String salvaRecensione(@PathVariable("id") Long id, @ModelAttribute("recensione") Recensione recensione) {
-            Videogioco videogioco = videogiocoService.getVideogiocoById(id).orElse(null);
-            if (videogioco == null) {
-                return "redirect:/videogiochi";
-            }
-        
-            UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-            Credentials credentials = credentialsService.getCredentials(userDetails.getUsername());
-            User user = credentials.getUser();
-        
-            // 🛡️ Sicurezza: forza la creazione come nuova recensione
-            recensione.setId(null);
-        
-            recensione.setVideogioco(videogioco);
-            recensione.setAutore(user);
-        
-            recensioneService.save(recensione);
-        
+
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Credentials credentials = credentialsService.getCredentials(userDetails.getUsername());
+        User user = credentials.getUser();
+
+        // Controllo se l'utente ha già rilasciato una recensione per questo videogioco
+        List<Recensione> recensioniUtente = recensioneService.getRecensioniByAutore(user);
+        boolean esisteRecensione = recensioniUtente.stream()
+                .anyMatch(r -> r.getVideogioco().getId().equals(id));
+
+        if (esisteRecensione) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Hai già rilasciato una recensione per questo videogioco.");
             return "redirect:/videogioco/" + id;
         }
-        */
-        @PostMapping("/videogioco/{id}/nuovaRecensione")
-public String salvaRecensione(@PathVariable("id") Long id, @ModelAttribute("recensione") Recensione recensione, RedirectAttributes redirectAttributes) {
-    Videogioco videogioco = videogiocoService.getVideogiocoById(id).orElse(null);
-    if (videogioco == null) {
-        return "redirect:/videogiochi";
+
+        // 🛡️ Sicurezza: forza la creazione come nuova recensione
+        recensione.setId(null);
+
+        recensione.setVideogioco(videogioco);
+        recensione.setAutore(user);
+
+        recensioneService.save(recensione);
+
+        redirectAttributes.addFlashAttribute("successMessage", "Recensione aggiunta con successo!");
+        return "redirect:/videogioco/" + id;
     }
 
+
+    @GetMapping("/user/recensioni")
+    public String leMieRecensioni(Model model) {
     UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     Credentials credentials = credentialsService.getCredentials(userDetails.getUsername());
     User user = credentials.getUser();
 
-    // Controllo se l'utente ha già rilasciato una recensione per questo videogioco
-    List<Recensione> recensioniUtente = recensioneService.getRecensioniByAutore(user);
-    boolean esisteRecensione = recensioniUtente.stream()
-            .anyMatch(r -> r.getVideogioco().getId().equals(id));
+    model.addAttribute("user", user.getName());
+    model.addAttribute("credentials", credentials);
+    model.addAttribute("recensioni", user.getRecensioni());
+    return "user/recensioneUser";
 
-    if (esisteRecensione) {
-        redirectAttributes.addFlashAttribute("errorMessage", "Hai già rilasciato una recensione per questo videogioco.");
-        return "redirect:/videogioco/" + id;
-    }
-
-    // 🛡️ Sicurezza: forza la creazione come nuova recensione
-    recensione.setId(null);
-
-    recensione.setVideogioco(videogioco);
-    recensione.setAutore(user);
-
-    recensioneService.save(recensione);
-
-    redirectAttributes.addFlashAttribute("successMessage", "Recensione aggiunta con successo!");
-    return "redirect:/videogioco/" + id;
 }
+
+
+
 
 }

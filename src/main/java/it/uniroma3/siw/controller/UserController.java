@@ -21,20 +21,6 @@ public class UserController {
 
 
 
-     @GetMapping("/user/recensioni")
-    public String leMieRecensioni(Model model) {
-    UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-    Credentials credentials = credentialsService.getCredentials(userDetails.getUsername());
-    User user = credentials.getUser();
-
-    model.addAttribute("user", user.getName());
-    model.addAttribute("credentials", credentials);
-    model.addAttribute("recensioni", user.getRecensioni());
-    return "user/recensioneUser";
-
-}
-
-
     @GetMapping("/user")
     public String getIndexUser(Model model) {
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();

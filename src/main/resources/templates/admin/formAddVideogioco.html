@@ -1,49 +1,140 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nuovo Videogioco</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+    <style>
+        /* Stile generale */
+        body {
+            background-color: #000; /* Sfondo nero */
+            color: #fff; /* Testo bianco */
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        /* Contenitore del form */
+        .form-container {
+            max-width: 600px;
+            width: 100%;
+            padding: 20px;
+            background-color: #111; /* Sfondo scuro */
+            border: 2px solid #ff2a2a; /* Bordo rosso */
+            border-radius: 8px; /* Angoli arrotondati */
+            box-shadow: 0 4px 8px rgba(255, 0, 0, 0.2); /* Ombra */
+        }
+
+        /* Titolo */
+        .form-container h1 {
+            color: #ff2a2a; /* Testo rosso */
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        /* Pulsante di salvataggio */
+        .btn-danger {
+            background-color: #ff2a2a; /* Sfondo rosso */
+            border-color: #ff2a2a; /* Bordo rosso */
+            color: #fff; /* Testo bianco */
+            font-size: 1.2rem; /* Testo più grande */
+            font-weight: bold;
+            padding: 15px; /* Aumenta il padding */
+            border-radius: 8px; /* Angoli arrotondati */
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease; /* Transizione per hover */
+        }
+
+        .btn-danger:hover {
+            background-color: #cc0000; /* Rosso più scuro al passaggio del mouse */
+            border-color: #cc0000;
+            transform: scale(1.05); /* Leggero ingrandimento al passaggio del mouse */
+        }
+
+        /* Input e select */
+        .form-control {
+            background-color: #222; /* Sfondo scuro */
+            color: #fff; /* Testo bianco */
+            border: 1px solid #444; /* Bordo grigio scuro */
+            margin-bottom: 15px;
+            padding: 10px;
+            border-radius: 5px;
+            width: calc(100% - 20px); /* Lascia spazio ai bordi */
+        }
+
+        .form-control:focus {
+            background-color: #333; /* Sfondo leggermente più chiaro */
+            color: #fff;
+            border-color: #ff2a2a; /* Bordo rosso al focus */
+            box-shadow: none;
+        }
+
+        /* Stile per select */
+        .form-control-select {
+            background-color: #222; /* Sfondo scuro */
+            color: #fff; /* Testo bianco */
+            border: 1px solid #444; /* Bordo grigio scuro */
+            margin-bottom: 15px;
+            padding: 10px;
+            border-radius: 5px;
+            width: 100%;
+            appearance: none; /* Rimuove lo stile predefinito */
+            background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg xmlns%3D%22http%3A//www.w3.org/2000/svg%22 viewBox%3D%220 0 4 5%22%3E%3Cpath fill%3D%22%23fff%22 d%3D%22M2 0L0 2h4zM2 5L0 3h4z%22/%3E%3C/svg%3E');
+            background-repeat: no-repeat;
+            background-position: right 10px center;
+            background-size: 10px;
+        }
+
+        .form-control-select:focus {
+            border-color: #ff2a2a; /* Bordo rosso al focus */
+            outline: none;
+        }
+
+        label {
+            font-weight: bold;
+            margin-bottom: 5px;
+            display: block;
+        }
+    </style>
 </head>
 <body>
-<h1>Inserisci un nuovo videogioco</h1>
+    <div class="form-container">
+        <h1>Inserisci un nuovo videogioco</h1>
+        <form th:action="@{/admin/saveVideogioco}" th:object="${videogioco}" method="post" enctype="multipart/form-data">
+            <label for="titolo">Titolo:</label>
+            <input type="text" id="titolo" th:field="*{titolo}" class="form-control" required maxlength="255"/>
 
-<form th:action="@{/admin/saveVideogioco}" th:object="${videogioco}" method="post" enctype="multipart/form-data">
-    <!-- Campo Titolo -->
-    <label for="titolo">Titolo:</label>
-    <input type="text" id="titolo" th:field="*{titolo}" required maxlength="255"/><br/>
+            <label for="genere">Genere:</label>
+            <select id="genere" th:field="*{genere}" class="form-control-select">
+                <option th:each="g : ${generi}" th:value="${g.name()}" th:text="${g}"></option>
+            </select>
 
-    <!-- Campo Genere -->
-    <label for="genere">Genere:</label>
-    <select id="genere" th:field="*{genere}">
-        <option th:each="g : ${generi}" th:value="${g.name()}" th:text="${g}"></option>
-    </select><br/>
+            <label for="descrizione">Descrizione:</label>
+            <textarea id="descrizione" th:field="*{descrizione}" class="form-control" maxlength="2000"></textarea>
 
-    <!-- Campo Descrizione -->
-    <label for="descrizione">Descrizione:</label>
-    <textarea id="descrizione" th:field="*{descrizione}" maxlength="2000"></textarea><br/>
+            <label for="dataUscita">Data di uscita:</label>
+            <input type="date" id="dataUscita" th:field="*{dataUscita}" class="form-control"/>
 
-    <!-- Campo Data di Uscita -->
-    <label for="dataUscita">Data di uscita:</label>
-    <input type="date" id="dataUscita" th:field="*{dataUscita}"/><br/>
+            <label for="pegi">PEGI Rating:</label>
+            <select id="pegi" th:field="*{pegi}" class="form-control-select">
+                <option th:each="p : ${pegiRatings}" th:value="${p.name()}" th:text="${p}"></option>
+            </select>
 
-    <!-- Campo PEGI Rating -->
-    <label for="pegi">PEGI Rating:</label>
-    <select id="pegi" th:field="*{pegi}">
-        <option th:each="p : ${pegiRatings}" th:value="${p.name()}" th:text="${p}"></option>
-    </select><br/>
+            <label for="casaProduttrice">Casa produttrice:</label>
+            <select id="casaProduttrice" th:field="*{casaProduttrice.id}" class="form-control-select">
+                <option th:each="c : ${caseProduttrici}" th:value="${c.id}" th:text="${c.nome}"></option>
+            </select>
 
-    <!-- Campo Casa Produttrice -->
-    <label for="casaProduttrice">Casa produttrice:</label>
-    <select id="casaProduttrice" th:field="*{casaProduttrice.id}">
-        <option th:each="c : ${caseProduttrici}" th:value="${c.id}" th:text="${c.nome}"></option>
-    </select><br/>
+            <label for="copertinaFile">Copertina (immagine):</label>
+            <input type="file" id="copertina" name="copertinaFile" class="form-control" accept="image/*"/>
 
-    <!-- Campo Copertina -->
-    <label for="copertinaFile">Copertina (immagine):</label>
-    <input type="file" id="copertina" name="copertinaFile" accept="image/*"/><br/>
-
-    <!-- Pulsante di Salvataggio -->
-    <button type="submit">Salva videogioco</button>
-</form>
-
+            <button type="submit" class="btn btn-danger w-100">Salva videogioco</button>
+        </form>
+    </div>
 </body>
 </html>

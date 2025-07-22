@@ -1,26 +1,141 @@
 <!DOCTYPE html>
-<html lang="it">
+<html xmlns:th="http://www.thymeleaf.org" lang="it">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home Admin</title>
-    <link rel="stylesheet" href="/static/css/style.css">
+    <title>Area Amministratore</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+    <style>
+        /* Stile generale */
+        body {
+            background-color: #000; /* Sfondo nero */
+            color: #fff; /* Testo bianco */
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* Intestazione */
+        header {
+            background-color: #111; /* Sfondo scuro */
+            color: #fff; /* Testo bianco */
+            padding: 20px;
+            text-align: center;
+            border-bottom: 2px solid #ff2a2a; /* Linea rossa sotto l'intestazione */
+            position: relative;
+        }
+
+        header h1 {
+            margin: 0;
+        }
+
+        nav {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+        }
+
+        nav a {
+            color: #fff; /* Testo bianco */
+            text-decoration: none; /* Rimuove la sottolineatura */
+            margin: 0 10px;
+            font-weight: bold;
+        }
+
+        nav a:hover {
+            text-decoration: underline; /* Sottolinea al passaggio del mouse */
+        }
+
+        /* Sezioni principali */
+        main {
+            flex: 1;
+            padding: 20px;
+        }
+
+        main section {
+            margin: 20px auto;
+            max-width: 800px;
+            padding: 15px;
+            background-color: #111; /* Sfondo scuro */
+            border: 1px solid #ff2a2a; /* Bordo rosso */
+            border-radius: 5px; /* Angoli arrotondati */
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5); /* Ombra */
+        }
+
+        main section h2 {
+            color: #ff2a2a; /* Titolo rosso */
+            margin-bottom: 10px;
+        }
+
+        main section ul {
+            list-style-type: none; /* Rimuove i punti elenco */
+            padding: 0;
+        }
+
+        main section ul li {
+            margin: 10px 0;
+        }
+
+        main section ul li a {
+            color: #fff; /* Testo bianco */
+            text-decoration: none; /* Rimuove la sottolineatura */
+            font-weight: bold;
+            transition: color 0.3s ease; /* Transizione per hover */
+        }
+
+        main section ul li a:hover {
+            color: #ff2a2a; /* Testo rosso al passaggio del mouse */
+        }
+
+        /* Footer */
+        footer {
+            background-color: #111; /* Sfondo scuro */
+            color: #fff; /* Testo bianco */
+            text-align: center;
+            padding: 10px 0;
+            border-top: 2px solid #ff2a2a; /* Linea rossa sopra il footer */
+            margin-top: auto;
+        }
+
+        footer p {
+            margin: 0;
+        }
+    </style>
 </head>
 <body>
-    <header>
-        <h1>Benvenuto nella tua area riservata, Admin!</h1>
-    </header>
+
+<header>
+    <h1>Benvenuto nell'Area Amministratore</h1>
     <nav>
-        <ul>
-            <li><a th:href="@{/admin/addVideogioco}">Inserisci Videogiochi</a></li>
-            <li><a th:href="@{/admin/addCasaProduttrice}">Inserisci Case Produttrici</a></li>
-            <li><a th:href="@{/videogiochi}">Modifica Videogiochi</a></li>
-            <li><a th:href="@{/caseProduttrici}">Modifica Case Produttrici</a></li>
-        </ul>
+        <a th:href="@{/}">Home</a>
+        <a th:href="@{/logout}">Logout</a>
     </nav>
-    
-    <footer>
-        <p>&copy; 2023 Ludoteca. Tutti i diritti riservati.</p>
-    </footer>
+</header>
+
+<main>
+    <section>
+        <h2>Gestione Videogiochi</h2>
+        <ul>
+            <li><a th:href="@{/admin/addVideogioco}">➕ Aggiungi un nuovo videogioco</a></li>
+            <li><a th:href="@{/videogiochi}">🗑️ Modifica o rimuovi videogiochi</a></li>
+        </ul>
+    </section>
+
+    <section>
+        <h2>Gestione Case Produttrici</h2>
+        <ul>
+            <li><a th:href="@{/admin/addCasaProduttrice}">➕ Aggiungi una nuova casa produttrice</a></li>
+            <li><a th:href="@{/caseProduttrici}">🗑️ Modifica o rimuovi case produttrici</a></li>
+        </ul>
+    </section>
+</main>
+
+<footer>
+    <p>&copy; 2023 Ludoteca - Area Admin</p>
+</footer>
+
 </body>
 </html>
