@@ -56,9 +56,7 @@ public class Videogioco {
     private Immagine copertina;
 
     
-    public Videogioco() {
-        this.recensioni = new ArrayList<>();   // Default constructor
-    }
+   
     
 
 

@@ -19,6 +19,8 @@ public interface RecensioneRepository extends CrudRepository<Recensione, Long> {
 
     List<Recensione> findByAutore(User autore);
 
+    boolean existsByVideogiocoAndAutore(Videogioco videogioco, User autore);
+
     
     //metodi come in books
 }

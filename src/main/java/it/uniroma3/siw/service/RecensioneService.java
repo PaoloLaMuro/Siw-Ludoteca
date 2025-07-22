@@ -42,5 +42,8 @@ public class RecensioneService {
         this.recensioneRepository.deleteById(id);
     }
 
+    public boolean esisteRecensionePerVideogiocoEAutore(Videogioco videogioco, User autore) {
+        return recensioneRepository.existsByVideogiocoAndAutore(videogioco, autore);
+    }
 
 }

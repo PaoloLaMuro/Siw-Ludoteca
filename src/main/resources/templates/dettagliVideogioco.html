@@ -75,6 +75,14 @@
 </div>
 
 <div class="container content mt-4">
+    <!-- Messaggi di errore e successo -->
+    <div th:if="${errorMessage != null}" class="alert alert-danger" role="alert">
+        <span th:text="${errorMessage}"></span>
+    </div>
+    <div th:if="${successMessage != null}" class="alert alert-success" role="alert">
+        <span th:text="${successMessage}"></span>
+    </div>
+
     <div th:if="${videogioco == null}">
         <div class="alert alert-danger mt-4" role="alert" style="background:#111; color:#ff2a2a; border:1px solid #ff2a2a;">
             ops.. qualcosa è andato storto
@@ -85,8 +93,12 @@
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="game-card mb-4">
-                    <div th:if="${videogioco.copertina != null}">
-                        <img th:src="@{'/images/' + ${videogioco.copertina.fileName}}" alt="Copertina" class="game-cover mb-2"/>
+                    <!-- Modifica per la gestione della copertina in Base64 -->
+                    <div th:if="${videogioco.copertina != null and videogioco.copertina.generateBase64Image() != null}">
+                        <img th:src="'data:image/png;base64,' + ${videogioco.copertina.generateBase64Image()}" 
+                             alt="Copertina" 
+                             class="game-cover mb-2" 
+                             style="width: 120px; height: 160px; object-fit: cover;" />
                     </div>
                     <p>
                         <strong style="color:#ff2a2a;">Genere:</strong>
@@ -153,3 +165,6 @@
 <footer>
     <hr>
     <p>&copy; 2025 Gli Archivi del Duca</p>
+</footer>
+</body>
+</html>
