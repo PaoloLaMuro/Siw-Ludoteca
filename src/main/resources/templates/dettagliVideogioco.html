@@ -129,29 +129,37 @@
                 </div>
             </div>
         </div>
-        <!-- RECENSIONI: box scrollabile subito sotto la card -->
+        <!-- RECENSIONI: elenco recensioni -->
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <h4 style="color:#ff2a2a;">Recensioni</h4>
-                <div class="recensioni-scrollbox mb-4" 
-                     th:if="${recensioni != null and #lists.size(recensioni) > 0}">
+                <div th:if="${recensioni != null and #lists.size(recensioni) > 0}">
                     <div th:each="rec, iterStat : ${recensioni}">
-                        <div class="recensione-box">
-                            <div class="recensione-titolo" th:text="${rec.titolo}">Titolo recensione</div>
-                            <div class="recensione-testo" th:text="${rec.testo}">Testo recensione</div>
-                            <div>
-                                <span class="badge bg-danger">Voto: <span th:text="${rec.voto}"></span></span>
-                            </div>
-                            <div class="recensione-autore">
-                                Autore: <span th:text="${rec.autore.name} + ' ' + ${rec.autore.surname}"></span>
-                            </div>
+                        <div class="mb-3">
+                            <h5 th:text="${rec.titolo}" style="color:#ff2a2a;">Titolo recensione</h5>
+                            <p th:text="${rec.testo}" style="color:#f8f9fa;">Testo recensione</p>
+                            <p>
+                                <strong style="color:#ff2a2a;">Voto:</strong>
+                                <span>
+                                    <span th:each="i : ${#numbers.sequence(1, rec.voto)}">
+                                        <img src="/images/fungoSuperMario.png" alt="Funghetto pieno" style="width: 50px; height: 50px; opacity: 1;" />
+                                    </span>
+                                    <span th:each="i : ${#numbers.sequence(rec.voto + 1, 5)}">
+                                        <img src="/images/fungoSuperMario.png" alt="Funghetto vuoto" style="width: 50px; height: 50px; opacity: 0.4;" />
+                                    </span>
+                                </span>
+                            </p>
+                            <p>
+                                <strong style="color:#ff2a2a;">Autore:</strong> 
+                                <span th:text="${rec.autore.email}">Username</span>
+                            </p>
                             <form th:if="${#authorization.expr('isAuthenticated()') and rec.autore.id == loggedUserId}" 
                                   th:action="@{/recensione/{id}/delete(id=${rec.id})}" method="post" style="display:inline;">
                                 <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
                                 <button type="submit" class="btn btn-sm btn-outline-danger mt-2">Elimina</button>
                             </form>
                         </div>
-                        <hr class="recensione-divider" th:if="${!iterStat.last}" />
+                        <hr th:if="${!iterStat.last}" />
                     </div>
                 </div>
                 <div th:if="${recensioni == null or #lists.size(recensioni) == 0}">
