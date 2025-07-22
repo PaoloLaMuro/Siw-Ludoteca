@@ -141,10 +141,12 @@
                             <p>
                                 <strong style="color:#ff2a2a;">Voto:</strong>
                                 <span>
+                                    <!-- Funghetti pieni -->
                                     <span th:each="i : ${#numbers.sequence(1, rec.voto)}">
                                         <img src="/images/fungoSuperMario.png" alt="Funghetto pieno" style="width: 50px; height: 50px; opacity: 1;" />
                                     </span>
-                                    <span th:each="i : ${#numbers.sequence(rec.voto + 1, 5)}">
+                                    <!-- Funghetti vuoti -->
+                                    <span th:if="${rec.voto < 5}" th:each="i : ${#numbers.sequence(rec.voto + 1, 5)}">
                                         <img src="/images/fungoSuperMario.png" alt="Funghetto vuoto" style="width: 50px; height: 50px; opacity: 0.4;" />
                                     </span>
                                 </span>
