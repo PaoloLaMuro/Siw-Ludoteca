@@ -23,8 +23,19 @@
             <textarea class="form-control" id="testo" th:field="*{testo}" rows="4" required></textarea>
         </div>
         <div class="mb-3">
-            <label for="voto" class="form-label">Voto (1-5)</label>
-            <input type="number" class="form-control" id="voto" th:field="*{voto}" min="1" max="5" required>
+            <label for="voto" class="form-label">Voto</label>
+            <div class="rating">
+                <input type="radio" id="fungo5" name="voto" th:value="5" th:field="*{voto}" />
+                <label for="fungo5" title="5 funghetti"></label>
+                <input type="radio" id="fungo4" name="voto" th:value="4" th:field="*{voto}" />
+                <label for="fungo4" title="4 funghetti"></label>
+                <input type="radio" id="fungo3" name="voto" th:value="3" th:field="*{voto}" />
+                <label for="fungo3" title="3 funghetti"></label>
+                <input type="radio" id="fungo2" name="voto" th:value="2" th:field="*{voto}" />
+                <label for="fungo2" title="2 funghetti"></label>
+                <input type="radio" id="fungo1" name="voto" th:value="1" th:field="*{voto}" />
+                <label for="fungo1" title="1 funghetto"></label>
+            </div>
         </div>
         <button type="submit" class="btn btn-danger">Salva Recensione</button>
     </form>

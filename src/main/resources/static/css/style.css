@@ -84,3 +84,31 @@ footer {
 .game-card img.game-cover {
     align-self: center;
 }
+
+.rating {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: center;
+    gap: 10px; /* Spaziatura tra i funghetti */
+}
+
+.rating input {
+    display: none; /* Nasconde i radio button */
+}
+
+.rating label {
+    position: relative;
+    width: 50px; /* Dimensione funghetti */
+    height: 50px; /* Dimensione funghetti */
+    background: url('/images/fungoSuperMario.png') no-repeat center center;
+    background-size: contain;
+    cursor: pointer;
+    opacity: 0.4; /* Funghetto "vuoto" */
+    transition: opacity 0.2s ease-in-out;
+}
+
+.rating input:checked ~ label,
+.rating label:hover,
+.rating label:hover ~ label {
+    opacity: 1; /* Funghetto "pieno" */
+}
