@@ -123,7 +123,7 @@ public String addVideogioco(@Valid @ModelAttribute("videogioco") Videogioco vide
 
     // Salvataggio del videogioco
     videogiocoRepository.save(videogioco);
-    return "redirect:/videogiochi";
+    return "redirect:/success"; //QUI PRIMA C'ERA REDIRECT:/VIDEOGIOCHI
 }
 
 @GetMapping("/admin/editVideogioco/{id}")

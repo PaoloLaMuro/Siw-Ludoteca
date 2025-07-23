@@ -86,7 +86,7 @@ public String addCasaProduttrice(@Valid @ModelAttribute("casaProduttrice") CasaP
     }
 
     System.out.println("Fine metodo addCasaProduttrice");
-    return "redirect:/caseProduttrici"; // Reindirizza alla lista delle case produttrici
+    return "redirect:/success"; // Reindirizza alla lista delle case produttrici
 }
 
 @GetMapping("/admin/updateCasaProduttrice/{id}")

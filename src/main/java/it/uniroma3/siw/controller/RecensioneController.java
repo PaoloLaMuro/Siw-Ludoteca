@@ -132,7 +132,7 @@ public class RecensioneController {
         return "redirect:/videogioco/" + id;
     }
 
-
+    /*
     @GetMapping("/user/recensioni")
     public String leMieRecensioni(Model model) {
     UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -145,7 +145,7 @@ public class RecensioneController {
     return "user/recensioneUser";
 
 }
-
+*/
 
 
 
