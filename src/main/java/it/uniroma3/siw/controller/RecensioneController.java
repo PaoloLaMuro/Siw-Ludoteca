@@ -34,19 +34,39 @@ public class RecensioneController {
     CredentialsService credentialsService;
 
 
-    //attenzione a questo optional tra qua e recensione service non sono sicurissimo !!!!!
+
+
+
+    //Metodo per eliminare una recensione con controllo di autorizzazione
     @PostMapping("/recensione/{id}/delete")
-    public String eliminaRecensione(@PathVariable("id") Long id) {
+    public String eliminaRecensione(@PathVariable("id") Long id, RedirectAttributes redirectAttributes) {
+        // Ottieni l'utente corrente autenticato
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Credentials credentials = credentialsService.getCredentials(userDetails.getUsername());
+        User currentUser = credentials.getUser();
+        
         Optional<Recensione> recensioneOpt = recensioneService.getRecensioneById(id);
         if (recensioneOpt.isPresent()) {
             Recensione recensione = recensioneOpt.get();
-            Long videogiocoId = recensione.getVideogioco().getId();
+            
+            // Controllo di autorizzazione: solo l'autore può eliminare la sua recensione
+            if (!recensione.getAutore().getId().equals(currentUser.getId())) {
+                redirectAttributes.addFlashAttribute("errorMessage", "Non sei autorizzato a eliminare questa recensione.");
+                return "redirect:/user/recensioni";
+            }
+            
             recensioneService.deleteById(id);
-            return "redirect:/videogioco/" + videogiocoId;
+            redirectAttributes.addFlashAttribute("successMessage", "Recensione eliminata con successo!");
+            return "redirect:/user/recensioni"; // Torna alla pagina delle recensioni dell'utente
         }
-        // Se non trovata, puoi reindirizzare dove preferisci (es. lista videogiochi)
-        return "redirect:/videogiochi";
+        
+        redirectAttributes.addFlashAttribute("errorMessage", "Recensione non trovata.");
+        return "redirect:/user/recensioni";
     }
+
+
+
+
 
        // GET: mostra la form
         @GetMapping("/videogioco/{id}/nuovaRecensione")
@@ -80,7 +100,7 @@ public class RecensioneController {
         }
         */
         @PostMapping("/videogioco/{id}/nuovaRecensione")
-public String salvaRecensione(@PathVariable("id") Long id, @ModelAttribute("recensione") Recensione recensione, RedirectAttributes redirectAttributes) {
+    public String salvaRecensione(@PathVariable("id") Long id, @ModelAttribute("recensione") Recensione recensione, RedirectAttributes redirectAttributes) {
     Videogioco videogioco = videogiocoService.getVideogiocoById(id).orElse(null);
     if (videogioco == null) {
         return "redirect:/videogiochi";

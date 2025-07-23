@@ -38,7 +38,7 @@ public class AdminController {
 
 
      @GetMapping("/admin/addCasaProduttrice")
-public String mostraFormNuovaCasaProduttrice(Model model) {
+    public String mostraFormNuovaCasaProduttrice(Model model) {
     model.addAttribute("casaProduttrice", new CasaProduttrice());
     return "admin/formAddCasaProduttrice";
 }

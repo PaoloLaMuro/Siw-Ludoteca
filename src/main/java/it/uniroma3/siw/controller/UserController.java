@@ -20,7 +20,7 @@ public class UserController {
 
 
 
-
+    //ho qualche problemqa, quando inserisco la recensione poi non mi fa vedere /leMieRecensioni
      @GetMapping("/user/recensioni")
     public String leMieRecensioni(Model model) {
     UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
