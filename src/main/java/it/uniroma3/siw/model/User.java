@@ -19,9 +19,9 @@ public class User {
 
     private String email;
 
-    
-    
-    @OneToMany(mappedBy = "autore", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+
+
+    @OneToMany(mappedBy = "autore", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Recensione> recensioni;
 
     

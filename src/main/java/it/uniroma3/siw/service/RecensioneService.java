@@ -37,7 +37,7 @@ public class RecensioneService {
         return this.recensioneRepository.findById(id);
     }
 
-    @Transactional
+    
     public void deleteById(Long id) {
         this.recensioneRepository.deleteById(id);
     }
