@@ -202,7 +202,7 @@ public String updateVideogioco(@PathVariable("id") Long id,
 
     return "redirect:/videogiochi";
 }
-
+/*
 @PostMapping("/admin/deleteVideogioco/{id}")
 @Transactional
 public String deleteVideogioco(@PathVariable("id") Long id) {
@@ -216,6 +216,17 @@ public String deleteVideogioco(@PathVariable("id") Long id) {
         System.out.println("Videogioco con ID " + id + " non trovato.");
     }
 
+    return "redirect:/videogiochi";
+}
+*/
+
+@PostMapping("/admin/deleteVideogioco/{id}")
+@Transactional
+public String deleteVideogioco(@PathVariable("id") Long id) {
+    Videogioco videogioco = videogiocoRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Videogioco non trovato"));
+    System.out.println("Eliminazione del videogioco con ID: " + id);
+
+    videogiocoRepository.delete(videogioco);
     return "redirect:/videogiochi";
 }
 

@@ -20,7 +20,7 @@ public class User {
     private String email;
 
     
-    @Column(nullable = false)
+    
     @OneToMany(mappedBy = "autore", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Recensione> recensioni;
 

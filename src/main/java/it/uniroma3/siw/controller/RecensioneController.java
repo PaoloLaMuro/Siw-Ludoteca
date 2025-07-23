@@ -21,6 +21,7 @@ import it.uniroma3.siw.model.Videogioco;
 import it.uniroma3.siw.service.CredentialsService;
 import it.uniroma3.siw.service.RecensioneService;
 import it.uniroma3.siw.service.VideogiocoService;
+import jakarta.transaction.Transactional;
 
 @Controller
 public class RecensioneController {
@@ -37,6 +38,7 @@ public class RecensioneController {
 
 
 
+    /*
     //Metodo per eliminare una recensione con controllo di autorizzazione
     @PostMapping("/recensione/{id}/delete")
     public String eliminaRecensione(@PathVariable("id") Long id, RedirectAttributes redirectAttributes) {
@@ -65,7 +67,7 @@ public class RecensioneController {
     }
 
 
-
+*/
 
 
        // GET: mostra la form
@@ -98,10 +100,10 @@ public class RecensioneController {
         
             return "redirect:/videogioco/" + id;
         }
-        */
+        
         @PostMapping("/videogioco/{id}/nuovaRecensione")
     public String salvaRecensione(@PathVariable("id") Long id, @ModelAttribute("recensione") Recensione recensione, RedirectAttributes redirectAttributes) {
-    Videogioco videogioco = videogiocoService.getVideogiocoById(id).orElse(null);
+    Optional<Videogioco> videogioco = videogiocoService.getVideogiocoById(id);
     if (videogioco == null) {
         return "redirect:/videogiochi";
     }
@@ -132,6 +134,44 @@ public class RecensioneController {
         return "redirect:/videogioco/" + id;
     }
 
+    */
+
+    @PostMapping("/videogioco/{id}/nuovaRecensione")
+public String salvaRecensione(@PathVariable("id") Long id,
+                              @ModelAttribute("recensione") Recensione recensione,
+                              RedirectAttributes redirectAttributes) {
+    Optional<Videogioco> optionalVideogioco = videogiocoService.getVideogiocoById(id);
+    if (optionalVideogioco.isEmpty()) {
+        redirectAttributes.addFlashAttribute("errorMessage", "Videogioco non trovato.");
+        return "redirect:/videogiochi";
+    }
+
+    Videogioco videogioco = optionalVideogioco.get();
+
+    UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    Credentials credentials = credentialsService.getCredentials(userDetails.getUsername());
+    User user = credentials.getUser();
+
+    // Controllo se l'utente ha già rilasciato una recensione per questo videogioco
+    List<Recensione> recensioniUtente = recensioneService.getRecensioniByAutore(user);
+    boolean esisteRecensione = recensioniUtente.stream()
+            .anyMatch(r -> r.getVideogioco().getId().equals(id));
+
+    if (esisteRecensione) {
+        redirectAttributes.addFlashAttribute("errorMessage", "Hai già rilasciato una recensione per questo videogioco.");
+        return "redirect:/videogioco/" + id;
+    }
+
+    recensione.setId(null);
+    recensione.setVideogioco(videogioco); // entità Hibernate
+    recensione.setAutore(user);
+
+    recensioneService.save(recensione);
+    redirectAttributes.addFlashAttribute("successMessage", "Recensione aggiunta con successo!");
+    return "redirect:/videogioco/" + id;
+}
+
+
     /*
     @GetMapping("/user/recensioni")
     public String leMieRecensioni(Model model) {
@@ -146,6 +186,22 @@ public class RecensioneController {
 
 }
 */
+
+   @PostMapping("/recensione/delete/{id}")
+public String eliminaRecensione(@PathVariable("id") Long id, RedirectAttributes redirectAttributes) {
+    System.out.println("🔍 Richiesta eliminazione recensione con ID: " + id); // <-- LOG
+    System.out.println("➡️ Entrato nel controller delete con ID: " + id);  // LOG DI DEBUG
+
+    Optional<Recensione> recensioneOpt = recensioneService.getRecensioneById(id);
+    if (recensioneOpt.isPresent()) {
+        recensioneService.deleteById(id);
+        redirectAttributes.addFlashAttribute("successMessage", "Recensione eliminata con successo!");
+    } else {
+        redirectAttributes.addFlashAttribute("errorMessage", "Recensione non trovata.");
+    }
+    return "redirect:/user/recensioni";
+}
+
 
 
 

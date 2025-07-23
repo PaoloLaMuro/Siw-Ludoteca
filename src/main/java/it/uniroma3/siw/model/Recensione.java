@@ -31,7 +31,7 @@ public class Recensione {
     private int voto;
 
     @ManyToOne
-    @JoinColumn(name = "videogioco_id", nullable = false)
+    @JoinColumn(name = "videogioco_id")
     private Videogioco videogioco;
 
     @ManyToOne

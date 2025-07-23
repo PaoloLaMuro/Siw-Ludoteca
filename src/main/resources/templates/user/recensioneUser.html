@@ -104,9 +104,12 @@
                     </span>
                 </div>
                 <!-- Pulsante elimina senza CSRF -->
-                <form th:action="@{/recensione/{id}/delete(id=${rec.id})}" method="post" style="display:inline;">
-                    <button type="submit" class="btn btn-sm btn-outline-danger mt-2">Elimina</button>
+                <form th:action="@{/recensione/delete/{id}(id=${rec.id})}" method="post">
+                    <input type="submit" value="Elimina" class="btn btn-danger">
                 </form>
+
+
+                
             </div>
             <hr class="recensione-divider" th:if="${!iterStat.last}" />
         </div>

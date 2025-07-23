@@ -44,7 +44,7 @@ public class VideogiocoService {
         return videogiocoRepository.save(videogioco);
     }
 
-    public void eliminaLibro(Videogioco videogioco) {
+    public void eliminaVideogioco(Videogioco videogioco) {
         videogiocoRepository.delete(videogioco);
     }
 
