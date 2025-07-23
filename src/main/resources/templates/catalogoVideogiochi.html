@@ -37,34 +37,20 @@
         <div class="row videogiochi-row">
             <div class="col-md-6 col-lg-4" th:each="gioco : ${videogiochi}">
                 <a th:href="@{/videogioco/{id}(id=${gioco.id})}" style="text-decoration:none;">
-                    <div class="game-card">
+                    <div class="game-card" style="padding: 15px; border-radius: 8px; background-color: #000; color: #fff;">
                         <div th:if="${gioco.copertina != null and gioco.copertina.generateBase64Image() != null}">
                             <img th:src="'data:image/png;base64,' + ${gioco.copertina.generateBase64Image()}" 
                                  alt="Copertina" 
-                                 class="game-cover mb-2" 
-                                 style="width: 120px; height: 160px; object-fit: cover;" />
+                                 class="game-cover mb-2" />
                         </div>
-                        <h2 th:text="${gioco.titolo}">Titolo Videogioco</h2>
-                        <p>
+                        <h2 th:text="${gioco.titolo}" style="text-align: center; margin-top: 10px;">Titolo Videogioco</h2>
+                        <p style="text-align: center;">
                             <strong style="color:#ff2a2a;">Genere:</strong>
                             <span th:text="${gioco.genere}">Genere</span>
                         </p>
-                        <p th:text="${gioco.descrizione}">Descrizione...</p>
-                        <p>
-                            <strong style="color:#ff2a2a;">Data di uscita:</strong>
-                            <span th:text="${#temporals.format(gioco.dataUscita, 'dd/MM/yyyy')}">Data</span>
-                        </p>
-                        <p>
-                            <strong style="color:#ff2a2a;">PEGI:</strong>
-                            <span th:text="${gioco.pegi}">PEGI</span>
-                        </p>
-                        <p>
-                            <strong style="color:#ff2a2a;">Casa produttrice:</strong>
-                            <span th:text="${gioco.casaProduttrice.nome}">Casa Produttrice</span>
-                        </p>
 
                         <!-- Pulsanti visibili solo per admin -->
-                        <div class="admin-actions" sec:authorize="hasAuthority('ADMIN')">
+                        <div class="admin-actions mt-3" sec:authorize="hasAuthority('ADMIN')" style="text-align: center;">
                             <a th:href="@{/admin/editVideogioco/{id}(id=${gioco.id})}" class="btn btn-warning btn-sm">
                                 <i class="bi bi-pencil"></i> Modifica
                             </a>

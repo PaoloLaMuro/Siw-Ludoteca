@@ -46,4 +46,14 @@ public class RecensioneService {
         return recensioneRepository.existsByVideogiocoAndAutore(videogioco, autore);
     }
 
+    @Transactional
+    public void deleteAll(List<Recensione> recensioni) {
+        if (recensioni != null && !recensioni.isEmpty()) {
+            recensioneRepository.deleteAll(recensioni);
+            System.out.println("Tutte le recensioni sono state eliminate con successo.");
+        } else {
+            System.out.println("Nessuna recensione da eliminare.");
+        }
+    }
+
 }

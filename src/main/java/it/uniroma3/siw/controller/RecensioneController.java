@@ -106,30 +106,47 @@ public class RecensioneController {
         return "redirect:/videogiochi";
     }
 
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Credentials credentials = credentialsService.getCredentials(userDetails.getUsername());
+        User user = credentials.getUser();
+
+        // Controllo se l'utente ha già rilasciato una recensione per questo videogioco
+        List<Recensione> recensioniUtente = recensioneService.getRecensioniByAutore(user);
+        boolean esisteRecensione = recensioniUtente.stream()
+                .anyMatch(r -> r.getVideogioco().getId().equals(id));
+
+        if (esisteRecensione) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Hai già rilasciato una recensione per questo videogioco.");
+            return "redirect:/videogioco/" + id;
+        }
+
+        // 🛡️ Sicurezza: forza la creazione come nuova recensione
+        recensione.setId(null);
+
+        recensione.setVideogioco(videogioco);
+        recensione.setAutore(user);
+
+        recensioneService.save(recensione);
+
+        redirectAttributes.addFlashAttribute("successMessage", "Recensione aggiunta con successo!");
+        return "redirect:/videogioco/" + id;
+    }
+
+
+    @GetMapping("/user/recensioni")
+    public String leMieRecensioni(Model model) {
     UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     Credentials credentials = credentialsService.getCredentials(userDetails.getUsername());
     User user = credentials.getUser();
 
-    // Controllo se l'utente ha già rilasciato una recensione per questo videogioco
-    List<Recensione> recensioniUtente = recensioneService.getRecensioniByAutore(user);
-    boolean esisteRecensione = recensioniUtente.stream()
-            .anyMatch(r -> r.getVideogioco().getId().equals(id));
+    model.addAttribute("user", user.getName());
+    model.addAttribute("credentials", credentials);
+    model.addAttribute("recensioni", user.getRecensioni());
+    return "user/recensioneUser";
 
-    if (esisteRecensione) {
-        redirectAttributes.addFlashAttribute("errorMessage", "Hai già rilasciato una recensione per questo videogioco.");
-        return "redirect:/videogioco/" + id;
-    }
-
-    // 🛡️ Sicurezza: forza la creazione come nuova recensione
-    recensione.setId(null);
-
-    recensione.setVideogioco(videogioco);
-    recensione.setAutore(user);
-
-    recensioneService.save(recensione);
-
-    redirectAttributes.addFlashAttribute("successMessage", "Recensione aggiunta con successo!");
-    return "redirect:/videogioco/" + id;
 }
+
+
+
 
 }

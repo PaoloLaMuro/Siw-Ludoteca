@@ -1,7 +1,6 @@
 package it.uniroma3.siw.model;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.format.annotation.DateTimeFormat;
@@ -47,11 +46,11 @@ public class Videogioco {
     private CasaProduttrice casaProduttrice;
 
 
-    @OneToMany(mappedBy = "videogioco", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "videogioco", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<Recensione> recensioni;
 
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "copertina_id")  //test per vedere senza immagini
     private Immagine copertina;
 

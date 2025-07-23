@@ -53,6 +53,7 @@ public class AuthConfiguration {
                 .cors(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authz -> authz
                         .requestMatchers(HttpMethod.GET, "/", "/index", "/register", "/css/**","/user/**", "/images/**", "favicon.ico").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/videogiochi", "/videogioco/**", "/caseProduttrici").permitAll() // Consenti accesso pubblico
                         .requestMatchers(HttpMethod.POST, "/register", "/login").permitAll()
                         .requestMatchers(HttpMethod.GET, "/admin/**").hasAuthority(ADMIN_ROLE)
                         .requestMatchers(HttpMethod.POST, "/admin/**").hasAuthority(ADMIN_ROLE)

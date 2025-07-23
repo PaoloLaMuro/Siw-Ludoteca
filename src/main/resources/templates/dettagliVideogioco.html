@@ -7,12 +7,30 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/css/style.css" />
     <style>
-        .game-card {
-            background: #222;
+        .game-details {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        .game-image {
+            flex: 1;
+            max-width: 400px;
+        }
+        .game-image img {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+            object-fit: cover;
+        }
+        .game-info {
+            flex: 2;
             color: #fff;
+            background: #222;
             border-radius: 10px;
             padding: 2rem;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            text-align: left;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
         }
         .recensioni-scrollbox {
             max-height: 350px;
@@ -25,7 +43,7 @@
         .recensione-box {
             background: #181a1b;
             border-radius: 8px;
-            box-shadow: 0 1px 4px rgba(0,0,0,0.10);
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.10);
             border: 1px solid #333;
             margin-bottom: 0.5rem;
             padding: 1rem 1.2rem;
@@ -54,24 +72,73 @@
         .badge.bg-danger {
             background-color: #ff2a2a !important;
         }
+        /* Stile per i bottoni personalizzati */
+        .btn-custom {
+            display: inline-block;
+            margin: 10px;
+            padding: 10px 20px;
+            background-color: #ff2a2a; /* Sfondo rosso */
+            color: #fff; /* Testo bianco */
+            text-decoration: none;
+            font-size: 1rem;
+            font-weight: bold;
+            border-radius: 8px; /* Angoli arrotondati */
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            text-align: center;
+        }
+
+        .btn-custom:hover {
+            background-color: #cc0000; /* Rosso più scuro al passaggio del mouse */
+            transform: scale(1.05); /* Leggero ingrandimento */
+        }
+
+        /* Pulsanti in alto a destra */
+        .top-buttons {
+            display: flex;
+            justify-content: flex-end; /* Posiziona i pulsanti a destra */
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        /* Pulsanti ai lati opposti */
+        .side-buttons {
+            display: flex;
+            justify-content: space-between; /* Posiziona i pulsanti ai lati opposti */
+            margin-bottom: 20px;
+        }
+
+        /* Centrare i bottoni nella barra di navigazione */
+        .buttons-container {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
     </style>
 </head>
 <body>
 <header>
     <h1>GAME LIFE</h1>
-    <nav>
-        <a th:href="@{/}">Home</a>
-        <a th:href="@{/login}" th:if="${not #authorization.expr('isAuthenticated()')}">Login</a>
-        <a th:href="@{/register}" th:if="${not #authorization.expr('isAuthenticated()')}">Registrati</a>
-        <a th:href="@{/user}" th:if="${#authorization.expr('isAuthenticated()')}">Area Personale</a>
-        <a th:href="@{/logout}" th:if="${#authorization.expr('isAuthenticated()')}">Logout</a>
+    <nav class="top-buttons">
+        <a th:href="@{/}" class="btn-custom">Home</a>
+        <a th:href="@{/login}" th:if="${not #authorization.expr('isAuthenticated()')}" class="btn-custom">Login</a>
+        <a th:href="@{/register}" th:if="${not #authorization.expr('isAuthenticated()')}" class="btn-custom">Registrati</a>
+        <a th:href="@{/user}" th:if="${#authorization.expr('isAuthenticated()')}" class="btn-custom">Area Personale</a>
+        <a th:href="@{/logout}" th:if="${#authorization.expr('isAuthenticated()')}" class="btn-custom">Logout</a>
     </nav>
     <hr>
 </header>
 
-<div class="navbar">
-    <a th:href="@{/videogiochi}">Catalogo Videogiochi</a>
-    <a th:href="@{/caseProduttrici}">Case Produttrici</a>
+<div class="navbar side-buttons">
+    <a th:href="@{/videogiochi}" class="btn-custom">Catalogo Videogiochi</a>
+    <a th:href="@{/caseProduttrici}" class="btn-custom">Case Produttrici</a>
 </div>
 
 <div class="container content mt-4">
@@ -89,62 +156,63 @@
         </div>
     </div>
     <div th:if="${videogioco != null}">
-        <h1 th:text="${videogioco.titolo}">Titolo Videogioco</h1>
-        <div class="row justify-content-center">
-            <div class="col-md-8">
-                <div class="game-card mb-4">
-                    <!-- Modifica per la gestione della copertina in Base64 -->
-                    <div th:if="${videogioco.copertina != null and videogioco.copertina.generateBase64Image() != null}">
-                        <img th:src="'data:image/png;base64,' + ${videogioco.copertina.generateBase64Image()}" 
-                             alt="Copertina" 
-                             class="game-cover mb-2" 
-                             style="width: 120px; height: 160px; object-fit: cover;" />
-                    </div>
-                    <p>
-                        <strong style="color:#ff2a2a;">Genere:</strong>
-                        <span th:text="${videogioco.genere}">Genere</span>
-                    </p>
-                    <p>
-                        <strong style="color:#ff2a2a;">Descrizione:</strong>
-                        <span th:text="${videogioco.descrizione}">Descrizione...</span>
-                    </p>
-                    <p>
-                        <strong style="color:#ff2a2a;">Data di uscita:</strong>
-                        <span th:text="${#temporals.format(videogioco.dataUscita, 'dd/MM/yyyy')}">Data</span>
-                    </p>
-                    <p>
-                        <strong style="color:#ff2a2a;">PEGI:</strong>
-                        <span th:text="${videogioco.pegi}">PEGI</span>
-                    </p>
-                    <p>
-                        <strong style="color:#ff2a2a;">Casa produttrice:</strong>
-                        <span th:text="${videogioco.casaProduttrice.nome}">Casa Produttrice</span>
-                    </p>
-                    <!-- Bottone aggiungi recensione per tutti gli utenti loggati -->
-                    <div class="text-center mt-3" th:if="${#authorization.expr('isAuthenticated()')}">
-                        <a th:href="@{/videogioco/{id}/nuovaRecensione(id=${videogioco.id})}" class="btn btn-danger">
-                            Aggiungi una recensione
-                        </a>
-                    </div>
+        <!-- Dettagli del gioco -->
+        <div class="game-details">
+            <div class="game-image">
+                <div th:if="${videogioco.copertina != null and videogioco.copertina.generateBase64Image() != null}">
+                    <img th:src="'data:image/png;base64,' + ${videogioco.copertina.generateBase64Image()}" 
+                         alt="Copertina" />
+                </div>
+            </div>
+            <div class="game-info">
+                <h1 th:text="${videogioco.titolo}">Titolo Videogioco</h1>
+                <p>
+                    <strong style="color:#ff2a2a;">Genere:</strong>
+                    <span th:text="${videogioco.genere}">Genere</span>
+                </p>
+                <p>
+                    <strong style="color:#ff2a2a;">Descrizione:</strong>
+                    <span th:text="${videogioco.descrizione}">Descrizione...</span>
+                </p>
+                <p>
+                    <strong style="color:#ff2a2a;">Data di uscita:</strong>
+                    <span th:text="${#temporals.format(videogioco.dataUscita, 'dd/MM/yyyy')}">Data</span>
+                </p>
+                <p>
+                    <strong style="color:#ff2a2a;">PEGI:</strong>
+                    <span th:text="${videogioco.pegi}">PEGI</span>
+                </p>
+                <p>
+                    <strong style="color:#ff2a2a;">Casa produttrice:</strong>
+                    <span th:text="${videogioco.casaProduttrice.nome}">Casa Produttrice</span>
+                </p>
+                <!-- Bottone aggiungi recensione per tutti gli utenti loggati -->
+                <div class="text-center mt-3" th:if="${#authorization.expr('isAuthenticated()')}">
+                    <a th:href="@{/videogioco/{id}/nuovaRecensione(id=${videogioco.id})}" class="btn btn-danger">
+                        Aggiungi una recensione
+                    </a>
                 </div>
             </div>
         </div>
+
         <!-- RECENSIONI: elenco recensioni -->
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <h4 style="color:#ff2a2a;">Recensioni</h4>
                 <div th:if="${recensioni != null and #lists.size(recensioni) > 0}">
                     <div th:each="rec, iterStat : ${recensioni}">
-                        <div class="mb-3">
-                            <h5 th:text="${rec.titolo}" style="color:#ff2a2a;">Titolo recensione</h5>
-                            <p th:text="${rec.testo}" style="color:#f8f9fa;">Testo recensione</p>
+                        <div class="recensione-box">
+                            <h5 th:text="${rec.titolo}" class="recensione-titolo">Titolo recensione</h5>
+                            <p th:text="${rec.testo}" class="recensione-testo">Testo recensione</p>
                             <p>
                                 <strong style="color:#ff2a2a;">Voto:</strong>
                                 <span>
+                                    <!-- Funghetti pieni -->
                                     <span th:each="i : ${#numbers.sequence(1, rec.voto)}">
                                         <img src="/images/fungoSuperMario.png" alt="Funghetto pieno" style="width: 50px; height: 50px; opacity: 1;" />
                                     </span>
-                                    <span th:each="i : ${#numbers.sequence(rec.voto + 1, 5)}">
+                                    <!-- Funghetti vuoti -->
+                                    <span th:if="${rec.voto < 5}" th:each="i : ${#numbers.sequence(rec.voto + 1, 5)}">
                                         <img src="/images/fungoSuperMario.png" alt="Funghetto vuoto" style="width: 50px; height: 50px; opacity: 0.4;" />
                                     </span>
                                 </span>
