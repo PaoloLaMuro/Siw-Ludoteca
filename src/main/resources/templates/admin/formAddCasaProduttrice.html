@@ -106,7 +106,7 @@
             <textarea id="testo" th:field="*{testo}" class="form-control" rows="5" required></textarea>
 
             <label for="annoPubblicazione">Anno di Pubblicazione:</label>
-            <input type="number" id="annoPubblicazione" th:field="*{annoPubblicazione}" class="form-control" required />
+            <input type="number" id="annoPubblicazione" th:field="*{annoPubblicazione}" class="form-control" required min="1900" max="2100" />
 
             <label for="fileLogo">Logo:</label>
             <input type="file" id="fileLogo" name="fileLogo" class="form-control" accept="image/*" />

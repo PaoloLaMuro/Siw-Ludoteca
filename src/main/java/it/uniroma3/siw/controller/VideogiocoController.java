@@ -65,6 +65,8 @@ public class VideogiocoController {
             System.out.println("Data di uscita: " + videogioco.getDataUscita());
             System.out.println("PEGI: " + videogioco.getPegi());
             System.out.println("Casa produttrice: " + (videogioco.getCasaProduttrice() != null ? videogioco.getCasaProduttrice().getNome() : "Nessuna"));
+            System.out.println("Numero di recensioni: " + (videogioco.getRecensioni() != null ? videogioco.getRecensioni().size() : 0));
+            System.out.println("Copertina: " + (videogioco.getCopertina() != null ? "Presente" : "Assente"));
 
             Iterable<Recensione> recensioni = recensioneService.getRecensioniByVideogioco(videogioco);
 
@@ -98,52 +100,29 @@ public String addVideogioco(@Valid @ModelAttribute("videogioco") Videogioco vide
                              BindingResult bindingResult,
                              @RequestParam(value = "copertinaFile", required = false) MultipartFile copertinaFile,
                              Model model) throws IOException {
-    // Log iniziale
-    System.out.println("Metodo addVideogioco chiamato.");
-
-    // Log dei dati ricevuti dal form
-    System.out.println("Titolo: " + videogioco.getTitolo());
-    System.out.println("Genere: " + videogioco.getGenere());
-    System.out.println("Descrizione: " + videogioco.getDescrizione());
-    System.out.println("Data di uscita: " + videogioco.getDataUscita());
-    System.out.println("PEGI: " + videogioco.getPegi());
-    System.out.println("Casa produttrice: " + (videogioco.getCasaProduttrice() != null ? videogioco.getCasaProduttrice().getNome() : "Nessuna"));
-
     // Controllo errori di validazione
     if (bindingResult.hasErrors()) {
-        System.out.println("Errori di validazione trovati: " + bindingResult.getAllErrors());
         model.addAttribute("generi", Genere.values());
         model.addAttribute("pegiRatings", PegiRating.values());
         model.addAttribute("caseProduttrici", casaProduttriceRepository.findAll());
-        return "admin/formAddVideogioco"; // Ritorna alla form se ci sono errori
+        return "admin/formAddVideogioco";
+    }
+
+    // Salva la casa produttrice se non è già salvata
+    if (videogioco.getCasaProduttrice() != null && videogioco.getCasaProduttrice().getId() == null) {
+        casaProduttriceRepository.save(videogioco.getCasaProduttrice());
     }
 
     // Gestione del file immagine (copertina)
     if (copertinaFile != null && !copertinaFile.isEmpty()) {
-        try {
-            System.out.println("Caricamento della copertina: " + copertinaFile.getOriginalFilename());
-            Immagine immagine = new Immagine();
-            immagine.setImageData(copertinaFile.getBytes());
-            immagineRepository.save(immagine);
-            videogioco.setCopertina(immagine);
-            System.out.println("Copertina salvata con successo.");
-        } catch (IOException e) {
-            System.out.println("Errore durante il caricamento della copertina: " + e.getMessage());
-            model.addAttribute("errore", "Errore durante il caricamento della copertina.");
-            model.addAttribute("generi", Genere.values());
-            model.addAttribute("pegiRatings", PegiRating.values());
-            model.addAttribute("caseProduttrici", casaProduttriceRepository.findAll());
-            return "admin/formAddVideogioco";
-        }
-    } else {
-        System.out.println("Nessuna copertina caricata.");
+        Immagine immagine = new Immagine();
+        immagine.setImageData(copertinaFile.getBytes());
+        immagineRepository.save(immagine);
+        videogioco.setCopertina(immagine);
     }
 
     // Salvataggio del videogioco
     videogiocoRepository.save(videogioco);
-    System.out.println("Videogioco salvato con successo: " + videogioco.getTitolo());
-
-    // Redirect alla lista dei videogiochi
     return "redirect:/videogiochi";
 }
 
@@ -231,16 +210,7 @@ public String deleteVideogioco(@PathVariable("id") Long id) {
 
     Optional<Videogioco> videogiocoOpt = videogiocoRepository.findById(id);
     if (videogiocoOpt.isPresent()) {
-        Videogioco videogioco = videogiocoOpt.get();
-
-        // Elimina l'immagine associata, se presente
-        if (videogioco.getCopertina() != null) {
-            immagineRepository.delete(videogioco.getCopertina());
-            System.out.println("Copertina associata eliminata.");
-        }
-
-        // Elimina il videogioco
-        videogiocoRepository.delete(videogioco);
+        videogiocoRepository.delete(videogiocoOpt.get());
         System.out.println("Videogioco eliminato con successo.");
     } else {
         System.out.println("Videogioco con ID " + id + " non trovato.");

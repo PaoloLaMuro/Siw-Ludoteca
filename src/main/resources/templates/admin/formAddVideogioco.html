@@ -117,7 +117,7 @@
             <label for="descrizione">Descrizione:</label>
             <textarea id="descrizione" th:field="*{descrizione}" class="form-control" maxlength="2000"></textarea>
 
-            <label for="dataUscita">Data di uscita:</label>
+            <label for="dataUscita">Data di rilascio:</label>
             <input type="date" id="dataUscita" th:field="*{dataUscita}" class="form-control"/>
 
             <label for="pegi">PEGI Rating:</label>
@@ -130,7 +130,7 @@
                 <option th:each="c : ${caseProduttrici}" th:value="${c.id}" th:text="${c.nome}"></option>
             </select>
 
-            <label for="copertinaFile">Copertina (immagine):</label>
+            <label for="copertinaFile">Copertina:</label>
             <input type="file" id="copertina" name="copertinaFile" class="form-control" accept="image/*"/>
 
             <button type="submit" class="btn btn-danger w-100">Salva videogioco</button>

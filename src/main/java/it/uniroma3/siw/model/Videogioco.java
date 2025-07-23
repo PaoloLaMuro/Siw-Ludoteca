@@ -46,11 +46,11 @@ public class Videogioco {
     private CasaProduttrice casaProduttrice;
 
 
-    @OneToMany(mappedBy = "videogioco", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "videogioco", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<Recensione> recensioni;
 
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "copertina_id")  //test per vedere senza immagini
     private Immagine copertina;
 

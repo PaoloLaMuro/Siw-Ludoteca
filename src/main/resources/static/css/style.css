@@ -80,6 +80,12 @@ footer {
     justify-content: space-between;
     /* Puoi anche fissare la larghezza se vuoi */
     /* width: 100%; */
+    background: #000;
+    border: none; /* Rimuove i bordi */
+    border-radius: 0; /* Rimuove gli angoli arrotondati */
+    padding: 1.5rem;
+    color: #fff;
+    box-shadow: none; /* Rimuove l'ombra */
 }
 .game-card img.game-cover {
     align-self: center;
@@ -111,4 +117,14 @@ footer {
 .rating label:hover,
 .rating label:hover ~ label {
     opacity: 1; /* Funghetto "pieno" */
+}
+
+/* Rimuovi i bordi rossi dall'immagine */
+.game-cover {
+    max-width: 100%;
+    max-height: 250px; /* Aumenta l'altezza massima */
+    border: none; /* Rimuove i bordi */
+    border-radius: 0; /* Rimuove gli angoli arrotondati */
+    object-fit: contain; /* Assicura che l'immagine non venga tagliata */
+    margin-bottom: 1rem;
 }

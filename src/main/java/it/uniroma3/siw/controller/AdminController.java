@@ -49,19 +49,43 @@ public String addCasaProduttrice(@Valid @ModelAttribute("casaProduttrice") CasaP
                                  BindingResult bindingResult,
                                  @RequestParam(value = "fileLogo", required = false) MultipartFile fileLogo,
                                  Model model) throws IOException {
+    System.out.println("Inizio metodo addCasaProduttrice");
+
+    // Verifica se ci sono errori di validazione
     if (bindingResult.hasErrors()) {
+        System.out.println("Errori di validazione trovati: " + bindingResult.getAllErrors());
         return "admin/formAddCasaProduttrice"; // Ritorna alla form se ci sono errori
     }
 
+    // Verifica se il file del logo è stato caricato
     if (fileLogo != null && !fileLogo.isEmpty()) {
-        Immagine immagine = new Immagine();
-        immagine.setImageData(fileLogo.getBytes());
-        immagineRepository.save(immagine); // Salva l'immagine nel repository
-         // Associa l'immagine alla casa produttrice
-        casaProduttrice.setLogo(immagine);
+        System.out.println("File logo caricato: " + fileLogo.getOriginalFilename());
+        try {
+            Immagine immagine = new Immagine();
+            immagine.setImageData(fileLogo.getBytes());
+            immagineRepository.save(immagine); // Salva l'immagine nel repository
+            System.out.println("Logo salvato con successo nel repository");
+            casaProduttrice.setLogo(immagine); // Associa l'immagine alla casa produttrice
+        } catch (IOException e) {
+            System.out.println("Errore durante il caricamento del logo: " + e.getMessage());
+            model.addAttribute("errore", "Errore durante il caricamento del logo.");
+            return "admin/formAddCasaProduttrice";
+        }
+    } else {
+        System.out.println("Nessun file logo caricato");
     }
 
-    casaProduttriceRepository.save(casaProduttrice);
+    // Salva la casa produttrice
+    try {
+        casaProduttriceRepository.save(casaProduttrice);
+        System.out.println("Casa produttrice salvata con successo: " + casaProduttrice.getNome());
+    } catch (Exception e) {
+        System.out.println("Errore durante il salvataggio della casa produttrice: " + e.getMessage());
+        model.addAttribute("errore", "Errore durante il salvataggio della casa produttrice.");
+        return "admin/formAddCasaProduttrice";
+    }
+
+    System.out.println("Fine metodo addCasaProduttrice");
     return "redirect:/caseProduttrici"; // Reindirizza alla lista delle case produttrici
 }
 
