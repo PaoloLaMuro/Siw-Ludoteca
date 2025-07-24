@@ -17,7 +17,6 @@
         <a th:href="@{/registrazione}" th:if="${not #authorization.expr('isAuthenticated()')}">Registrati</a>
         <a th:href="@{/user}" th:if="${#authorization.expr('isAuthenticated()')}">Area Personale</a>
         <a th:href="@{/logout}" th:if="${#authorization.expr('isAuthenticated()')}">Logout</a>
-        <a th:href="@{/miglioriVideogiochi}">HOT NEWS</a>
     </nav>
     <hr>
 </header>
@@ -28,16 +27,16 @@
 </div>
 
 <div class="container content mt-4">
-    <h1>Catalogo Videogiochi</h1>
-    <div th:if="${videogiochi.empty}">
+    <h1>Catalogo Videogiochi più recensiti</h1>
+    <div th:if="${best4games.empty}">
         <div class="alert alert-danger mt-4" role="alert" style="background:#111; color:#ff2a2a; border:1px solid #ff2a2a;">
             Spiacente, ancora nessun videogioco nel catalogo.
         </div>
     </div>
-    <div th:if="${not videogiochi.empty}">
+    <div th:if="${not best4games.empty}">
         
         <div class="row videogiochi-row">
-            <div class="col-md-6 col-lg-4" th:each="gioco : ${videogiochi}">
+            <div class="col-md-6 col-lg-4" th:each="gioco : ${best4games}">
                 <a th:href="@{/videogioco/{id}(id=${gioco.id})}" style="text-decoration:none;">
                     <div class="game-card" style="padding: 15px; border-radius: 8px; background-color: #000; color: #fff;">
                         <div th:if="${gioco.copertina != null and gioco.copertina.generateBase64Image() != null}">
@@ -51,18 +50,6 @@
                             <span th:text="${gioco.genere}">Genere</span>
                         </p>
 
-                        <!-- Pulsanti visibili solo per admin -->
-                        <div class="admin-actions mt-3" sec:authorize="hasAuthority('ADMIN')" style="text-align: center;">
-                            <a th:href="@{/admin/editVideogioco/{id}(id=${gioco.id})}" class="btn btn-warning btn-sm">
-                                <i class="bi bi-pencil"></i> Modifica
-                            </a>
-                            <form th:action="@{/admin/deleteVideogioco/{id}(id=${gioco.id})}" method="post" style="display:inline;">
-                                <input type="hidden" name="_method" value="delete" />
-                                <button type="submit" class="btn btn-danger btn-sm">
-                                    <i class="bi bi-x"></i> Elimina
-                                </button>
-                            </form>
-                        </div>
                     </div>
                 </a>
             </div>

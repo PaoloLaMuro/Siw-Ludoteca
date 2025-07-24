@@ -206,20 +206,21 @@
                 La nostra piattaforma è pensata per gli appassionati di videogiochi di tutte le età.
             </p>
             <p>
-                Unisciti alla nostra community e condividi la tua passione per il gaming!
+                Unisciti alla nostra community e condividi la tua passione per il gaming! Piu di: <span th:text="${numeroGames}"></span> videogiochi disponibili.
             </p>
         </div>
     </div>
 
     <!-- Pulsanti sotto il carosello e la descrizione -->
     <div class="buttons-container">
-        <a th:href="@{/videogiochi}">Catalogo Videogiochi</a>
+        <a th:href="@{/videogiochi}">Catalogo Videogiochi <span class="badge bg-danger" th:text="${numeroGames}"></span></a>
         <a th:href="@{/caseProduttrici}">Case Produttrici</a>
+        <a th:href="@{/ricercaVideogioco}">Ricerca Videogioco</a>
         <p>Esplora il nostro catalogo di videogiochi o scopri le case produttrici che hanno fatto la storia del gaming.</p>
     </div>
 
     <footer>
-        <p>&copy; 2025 Gli Archivi del Duca</p>
+        <p>&copy; 2025 LUDOTECA</p>
     </footer>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>

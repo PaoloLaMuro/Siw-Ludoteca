@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import it.uniroma3.siw.model.CasaProduttrice;
+import it.uniroma3.siw.model.Genere;
 import it.uniroma3.siw.model.Immagine;
 import it.uniroma3.siw.model.Videogioco;
 import it.uniroma3.siw.repository.ImmagineRepository;
@@ -85,5 +86,19 @@ public class VideogiocoService {
 
         videogiocoRepository.save(videogioco);
     }
-    
+
+    //query per contare il numero di videogiochi presenti sul sito
+    public Long countVideogiochi() {
+        return videogiocoRepository.count();
+    }
+
+    public List<Videogioco> getBest4Videogiochi() {
+        List<Videogioco> videogiochi = videogiocoRepository.getBest4Videogiochi();
+        return videogiochi;
+    }
+
+    public List<Videogioco> findByGenere(Genere genere) {
+        return videogiocoRepository.findByGenere(genere);
+    }
+
 }

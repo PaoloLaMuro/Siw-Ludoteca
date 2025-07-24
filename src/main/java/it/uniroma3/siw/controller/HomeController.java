@@ -16,6 +16,7 @@ import it.uniroma3.siw.model.Credentials;
 import it.uniroma3.siw.model.User;
 import it.uniroma3.siw.service.CredentialsService;
 import it.uniroma3.siw.service.UserService;
+import it.uniroma3.siw.service.VideogiocoService;
 import jakarta.validation.Valid;
 
 @Controller
@@ -28,11 +29,15 @@ public class HomeController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private VideogiocoService videogiocoService;
  
 
  // HOME PAGE VISIBILE A TUTTI
     @GetMapping("/")
     public String mostraHome(Model model) {
+        model.addAttribute("numeroGames", videogiocoService.countVideogiochi());
         return "index"; // templates/index.html
     }
 
@@ -84,6 +89,7 @@ public class HomeController {
         }
 
         model.addAttribute("user", credentials.getUser()); // Passa user alla view
+         model.addAttribute("numeroGames", videogiocoService.countVideogiochi());
         return "index";
     }
 

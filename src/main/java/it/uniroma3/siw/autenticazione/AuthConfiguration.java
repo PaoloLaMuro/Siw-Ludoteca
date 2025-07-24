@@ -52,9 +52,9 @@ public class AuthConfiguration {
                 .csrf(AbstractHttpConfigurer::disable)
                 .cors(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authz -> authz
-                        .requestMatchers(HttpMethod.GET, "/", "/index", "/register", "/css/**","/user/**", "/images/**", "favicon.ico").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/", "/index", "/register","/risultatiRicercaGenere", "/css/**","/user/**", "/images/**","/ricercaVideogioco", "favicon.ico", "/miglioriVideogiochi").permitAll()
                         .requestMatchers(HttpMethod.GET, "/videogiochi", "/videogioco/**", "/caseProduttrici").permitAll() // Consenti accesso pubblico
-                        .requestMatchers(HttpMethod.POST, "/register", "/login").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/register", "/login", "/ricercaVideogioco", "/ricercaVideogiocoGenere").permitAll()
                         .requestMatchers(HttpMethod.GET, "/admin/**").hasAuthority(ADMIN_ROLE)
                         .requestMatchers(HttpMethod.POST, "/admin/**").hasAuthority(ADMIN_ROLE)
                         .anyRequest().authenticated()       //alla fine cambiare in authenticated()
