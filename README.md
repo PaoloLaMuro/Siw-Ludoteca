@@ -1,4 +1,5 @@
-CASI D'USO PER LUDOTECA-VIRTUALE
+CASI D'USO PER LUDOTECA-VIRTUALE:
+
 1)tutti possono consultare il catalogo dei videogiochi presenti
 2)tutti possono consultare il catalogo delle case produttrici
 3)tutti possono filtrare i giochi disponibili per genere(enum)
