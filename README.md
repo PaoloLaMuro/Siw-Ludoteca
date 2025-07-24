@@ -1,4 +1,4 @@
-CASI D'USO PER lUDOTECA-VIRTUALE
+CASI D'USO PER LUDOTECA-VIRTUALE
 
 
 1)tutti possono consultare il catalogo dei videogiochi presenti
