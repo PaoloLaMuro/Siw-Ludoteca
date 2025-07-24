@@ -189,8 +189,8 @@ public String salvaRecensione(@PathVariable("id") Long id,
 
    @PostMapping("/recensione/delete/{id}")
 public String eliminaRecensione(@PathVariable("id") Long id, RedirectAttributes redirectAttributes) {
-    System.out.println("🔍 Richiesta eliminazione recensione con ID: " + id); // <-- LOG
-    System.out.println("➡️ Entrato nel controller delete con ID: " + id);  // LOG DI DEBUG
+    System.out.println(" Richiesta eliminazione recensione con ID: " + id); // <-- LOG
+    System.out.println(" Entrato nel controller delete con ID: " + id);  // LOG DI DEBUG
 
     Optional<Recensione> recensioneOpt = recensioneService.getRecensioneById(id);
     if (recensioneOpt.isPresent()) {
