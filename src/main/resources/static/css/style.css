@@ -1,0 +1,130 @@
+body {
+    background-color: #000;
+    color: #fff;
+    font-family: Arial, sans-serif;
+    margin: 30px;
+}
+.container-main {
+    margin-left: 40px;
+    margin-right: 40px;
+}
+.navbar, header nav {
+    background-color: #000 !important;
+    border-bottom: 2px solid #ff2a2a;
+    margin-bottom: 20px;
+}
+.navbar a, header nav a {
+    color: #fff !important;
+    border-bottom: 2px solid transparent;
+    transition: border-color 0.2s, color 0.2s;
+    text-decoration: none;
+    padding: 14px 20px;
+    display: inline-block;
+}
+.navbar a:hover, header nav a:hover {
+    color: #ff2a2a !important;
+    border-bottom: 2px solid #ff2a2a;
+    background-color: transparent !important;
+}
+header h1 {
+    color: #ff2a2a;
+    text-shadow: 1px 1px 4px #222;
+    margin-bottom: 0.5rem;
+}
+hr {
+    border-top: 2px solid #ff2a2a;
+    margin: 0.5rem 0;
+}
+.content h1 {
+    color: #ff2a2a;
+}
+.content {
+    padding: 20px;
+    text-align: center;
+    margin-bottom: 30px;
+}
+footer {
+    background: #000;
+    color: #fff;
+    text-align: center;
+    padding: 1rem 0;
+    margin-top: 30px;
+}
+/* Card styles for videogiochi and case produttrici */
+.producer-card, .game-card {
+    background: #111;
+    border: 1px solid #ff2a2a;
+    border-radius: 10px;
+    margin-bottom: 1.5rem;
+    padding: 1.5rem;
+    color: #fff;
+    box-shadow: 0 2px 8px #222;
+}
+.producer-card h2, .game-card h2 {
+    color: #ff2a2a;
+}
+.producer-logo, .game-cover {
+    max-width: 120px;
+    max-height: 120px;
+    border-radius: 8px;
+    border: 2px solid #ff2a2a;
+    margin-bottom: 1rem;
+    background: #222;
+}
+/* Uniforma le dimensioni delle card dei videogiochi */
+.game-card {
+    min-height: 420px;
+    max-height: 420px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    /* Puoi anche fissare la larghezza se vuoi */
+    /* width: 100%; */
+    background: #000;
+    border: none; /* Rimuove i bordi */
+    border-radius: 0; /* Rimuove gli angoli arrotondati */
+    padding: 1.5rem;
+    color: #fff;
+    box-shadow: none; /* Rimuove l'ombra */
+}
+.game-card img.game-cover {
+    align-self: center;
+}
+
+.rating {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: center;
+    gap: 10px; /* Spaziatura tra i funghetti */
+}
+
+.rating input {
+    display: none; /* Nasconde i radio button */
+}
+
+.rating label {
+    position: relative;
+    width: 50px; /* Dimensione funghetti */
+    height: 50px; /* Dimensione funghetti */
+    background: url('/images/fungoSuperMario.png') no-repeat center center;
+    background-size: contain;
+    cursor: pointer;
+    opacity: 0.4; /* Funghetto "vuoto" */
+    transition: opacity 0.2s ease-in-out;
+}
+
+.rating input:checked ~ label,
+.rating label:hover,
+.rating label:hover ~ label {
+    opacity: 1; /* Funghetto "pieno" */
+}
+
+/* Rimuovi i bordi rossi dall'immagine */
+.game-cover {
+    max-width: 100%;
+    max-height: 250px; /* Aumenta l'altezza massima */
+    border: none; /* Rimuove i bordi */
+    border-radius: 0; /* Rimuove gli angoli arrotondati */
+    object-fit: contain; /* Assicura che l'immagine non venga tagliata */
+    margin-bottom: 1rem;
+}

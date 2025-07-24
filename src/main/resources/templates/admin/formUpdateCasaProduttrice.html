@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modifica Casa Produttrice</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+    <style>
+        /* Stile generale */
+        body {
+            background-color: #000; /* Sfondo nero */
+            color: #fff; /* Testo bianco */
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        /* Contenitore del form */
+        .form-container {
+            max-width: 600px;
+            width: 100%;
+            padding: 20px;
+            background-color: #111; /* Sfondo scuro */
+            border: 2px solid #ff2a2a; /* Bordo rosso */
+            border-radius: 8px; /* Angoli arrotondati */
+            box-shadow: 0 4px 8px rgba(255, 0, 0, 0.2); /* Ombra */
+        }
+
+        /* Titolo */
+        .form-container h1 {
+            color: #ff2a2a; /* Testo rosso */
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        /* Pulsante di salvataggio */
+        .btn-danger {
+            background-color: #ff2a2a; /* Sfondo rosso */
+            border-color: #ff2a2a; /* Bordo rosso */
+            color: #fff; /* Testo bianco */
+            font-size: 1.2rem; /* Testo più grande */
+            font-weight: bold;
+            padding: 15px; /* Aumenta il padding */
+            border-radius: 8px; /* Angoli arrotondati */
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease; /* Transizione per hover */
+        }
+
+        .btn-danger:hover {
+            background-color: #cc0000; /* Rosso più scuro al passaggio del mouse */
+            border-color: #cc0000;
+            transform: scale(1.05); /* Leggero ingrandimento al passaggio del mouse */
+        }
+
+        /* Input e textarea */
+        .form-control {
+            background-color: #222; /* Sfondo scuro */
+            color: #fff; /* Testo bianco */
+            border: 1px solid #444; /* Bordo grigio scuro */
+            margin-bottom: 15px;
+            padding: 10px;
+            border-radius: 5px;
+            width: calc(100% - 20px); /* Lascia spazio ai bordi */
+        }
+
+        .form-control:focus {
+            background-color: #333; /* Sfondo leggermente più chiaro */
+            color: #fff;
+            border-color: #ff2a2a; /* Bordo rosso al focus */
+            box-shadow: none;
+        }
+
+        label {
+            font-weight: bold;
+            margin-bottom: 5px;
+            display: block;
+        }
+
+        /* Link di annullamento */
+        .cancel-link {
+            display: block;
+            text-align: center;
+            margin-top: 15px;
+            color: #ff2a2a; /* Testo rosso */
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .cancel-link:hover {
+            color: #cc0000; /* Rosso più scuro al passaggio del mouse */
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <h1>Modifica Casa Produttrice</h1>
+        <form th:action="@{/admin/updateCasaProduttrice/{id}(id=${casaProduttrice.id})}" th:object="${casaProduttrice}" method="post" enctype="multipart/form-data">
+            <label for="nome">Nome:</label>
+            <input type="text" id="nome" th:field="*{nome}" class="form-control" required />
+
+            <label for="testo">Descrizione:</label>
+            <textarea id="testo" th:field="*{testo}" class="form-control" rows="5" required></textarea>
+
+            <label for="annoPubblicazione">Anno di Pubblicazione:</label>
+            <input type="number" id="annoPubblicazione" th:field="*{annoPubblicazione}" class="form-control" required />
+
+            <label for="fileLogo">Logo:</label>
+            <input type="file" id="fileLogo" name="fileLogo" class="form-control" accept="image/*" />
+
+            <button type="submit" class="btn btn-danger w-100">Salva Modifiche</button>
+        </form>
+        <a th:href="@{/caseProduttrici}" class="cancel-link">Annulla</a>
+    </div>
+</body>
+</html>
