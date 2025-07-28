@@ -1,7 +1,6 @@
 package it.uniroma3.siw.controller;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -203,23 +202,7 @@ public String updateVideogioco(@PathVariable("id") Long id,
 
     return "redirect:/videogiochi";
 }
-/*
-@PostMapping("/admin/deleteVideogioco/{id}")
-@Transactional
-public String deleteVideogioco(@PathVariable("id") Long id) {
-    System.out.println("Eliminazione del videogioco con ID: " + id);
 
-    Optional<Videogioco> videogiocoOpt = videogiocoRepository.findById(id);
-    if (videogiocoOpt.isPresent()) {
-        videogiocoRepository.delete(videogiocoOpt.get());
-        System.out.println("Videogioco eliminato con successo.");
-    } else {
-        System.out.println("Videogioco con ID " + id + " non trovato.");
-    }
-
-    return "redirect:/videogiochi";
-}
-*/
 
 @PostMapping("/admin/deleteVideogioco/{id}")
 @Transactional
@@ -231,56 +214,12 @@ public String deleteVideogioco(@PathVariable("id") Long id) {
     return "redirect:/videogiochi";
 }
 
-@GetMapping("/miglioriVideogiochi")
-public String mostraMiglioriVideogiochi(Model model) {
-    model.addAttribute("best4games", videogiocoService.getBest4Videogiochi());
-    model.addAttribute("generi", Genere.values());
-    return "miglioriVideogiochi"; // templates/miglioriVideogiochi.html
-}
 
-@PostMapping("/ricercaVideogioco")
-    public String ricercaVideogioco(@RequestParam("titolo") String titolo, Model model) {
-        List<Videogioco> risultati = videogiocoRepository.findByTitolo(titolo);
 
-        if (risultati != null && !risultati.isEmpty()) {
-            // Se trovi più giochi con lo stesso titolo, mostra il primo
-            model.addAttribute("videogioco", risultati.get(0));
-            // Puoi anche passare la lista se vuoi gestire più risultati
-            return "dettagliVideogioco";
-        } else {
-            model.addAttribute("errorMessage", "Nessun videogioco trovato con questo titolo.");
-            return "ricerca";
-        }
-    }
 
-    @GetMapping("/ricercaVideogioco")
-    public String mostraFormRicercaVideogioco(Model model) {
-        model.addAttribute("titolo", ""); // Aggiungi un attributo per il titolo
-        model.addAttribute("generi", Genere.values()); // Passa i generi per la view
-        return "ricerca"; // templates/ricerca.html
-    }
 
-    @PostMapping("/ricercaVideogiocoGenere")
-public String ricercaVideogiocoGenere(@RequestParam("genere") Genere genere, Model model) {
-    List<Videogioco> risultati = videogiocoRepository.findByGenere(genere);
+   
 
-    model.addAttribute("generi", Genere.values()); // Passa sempre i generi per la view
 
-    if (risultati != null && !risultati.isEmpty()) {
-        model.addAttribute("risultatiGenere", risultati);
-        model.addAttribute("genereSelezionato", genere);
-        return "risultatiRicercaGenere"; // Crea un template per mostrare i risultati
-    } else {
-        model.addAttribute("errorGenere", "Spiacenti Gamer, non siamo ancora aggiornati su questa categoria. Non posare il joystick, arriviamo presto!");
-        return "ricerca";
-    }
-    }
-
-    @GetMapping("/risultatiRicercaGenere")
-    public String mostraRisultatiRicercaGenere(Model model, @RequestParam(value = "genere", required = false) Genere genere) {
-        model.addAttribute("generi", Genere.values()); // Passa sempre i generi per la view
-        model.addAttribute("risultatiGenere", videogiocoService.findByGenere(genere)); // Passa i risultati della ricerca
-        return "risultatiRicercaGenere"; // templates/risultatiRicercaGenere.html
-    }
 
 }
