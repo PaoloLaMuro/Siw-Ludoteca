@@ -21,7 +21,6 @@ import it.uniroma3.siw.model.Videogioco;
 import it.uniroma3.siw.service.CredentialsService;
 import it.uniroma3.siw.service.RecensioneService;
 import it.uniroma3.siw.service.VideogiocoService;
-import jakarta.transaction.Transactional;
 
 @Controller
 public class RecensioneController {

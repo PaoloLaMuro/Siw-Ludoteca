@@ -16,14 +16,15 @@
         <a th:href="@{/login}" th:if="${not #authorization.expr('isAuthenticated()')}">Login</a>
         <a th:href="@{/registrazione}" th:if="${not #authorization.expr('isAuthenticated()')}">Registrati</a>
         <a th:href="@{/user}" th:if="${#authorization.expr('isAuthenticated()')}">Area Personale</a>
-        <a th:href="@{/logout}" th:if="${#authorization.expr('isAuthenticated()')}">Logout</a>
-        <a th:href="@{/miglioriVideogiochi}">HOT NEWS</a>
+        <a th:href="@{/logout}" th:if="${#authorization.expr('isAuthenticated()')}">Logout</a>    
+    
     </nav>
     <hr>
 </header>
 
 <div class="navbar">
     <a th:href="@{/videogiochi}">Catalogo Videogiochi</a>
+    <a class="btn btn-warning ms-3" th:href="@{/success}" sec:authorize="hasAuthority('ADMIN')">Home Admin</a>
     <a th:href="@{/caseProduttrici}">Case Produttrici</a>
 </div>
 
