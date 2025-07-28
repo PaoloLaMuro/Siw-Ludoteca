@@ -23,6 +23,7 @@
 
 <div class="navbar">
     <a th:href="@{/videogiochi}">Catalogo Videogiochi</a>
+    <a class="btn btn-warning ms-3" th:href="@{/success}" sec:authorize="hasAuthority('ADMIN')">Home Admin</a>
     <a th:href="@{/caseProduttrici}">Case Produttrici</a>
 </div>
 
